@@ -1,8 +1,9 @@
 package com.kaandradec.frozenfun.model
 
 data class CartItem(
-    val id: String,
-    val name: String,
-    val price: Double,
-    val quantity: Int
+    val id: Int,
+    val nombre: String,
+    val precio: Double,
+    val imagen: String,
+    var quantity: Int
 )

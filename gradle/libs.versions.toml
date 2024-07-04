@@ -14,6 +14,8 @@ ui = "1.7.0-beta01"
 kotlinxSerializationJson = "1.6.0"
 # ICONS
 materialExtended = "1.5.0"
+engageCore = "1.5.2"
+protoliteWellKnownTypes = "18.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,6 +38,8 @@ ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 # ICONS
 androidx-material-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialExtended" }
+engage-core = { group = "com.google.android.engage", name = "engage-core", version.ref = "engageCore" }
+protolite-well-known-types = { group = "com.google.firebase", name = "protolite-well-known-types", version.ref = "protoliteWellKnownTypes" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
