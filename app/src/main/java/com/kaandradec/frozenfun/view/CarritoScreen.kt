@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,10 +53,9 @@ fun CarritoScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
-                text = "Pantalla Carrito",
-                fontSize = 25.sp,
+                text = "        Pantalla Carrito",
+                fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(3f)
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -122,7 +122,7 @@ fun CarritoScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         val totalPrice = cartItems.sumOf { it.precio * it.quantity }
-        Text(text = "Total a Pagar: $$totalPrice", fontSize = 20.sp)
+        Text(text = "Total a Pagar: $$totalPrice", fontSize = 22.sp)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -133,8 +133,12 @@ fun CarritoScreen(
         ) {
             Button(onClick = {
                 navController.navigate(Screen.Ajustes)
-            }) {
-                Text(text = "Pagar helados")
+            },
+                modifier = Modifier
+                    .height(48.dp)
+                    .weight(1f)
+            ) {
+                Text(text = "Pagar helados", fontSize = 17.sp)
             }
 
             Button(
@@ -145,10 +149,9 @@ fun CarritoScreen(
                     .height(48.dp)
                     .weight(1f)
             ) {
-                Text(text = "Volver a Seleccionar")
+                Text(text = "Regresar a menú",fontSize = 17.sp)
             }
         }
-
         Spacer(modifier = Modifier.height(80.dp))
     }
 }

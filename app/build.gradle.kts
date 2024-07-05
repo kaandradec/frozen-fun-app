@@ -77,4 +77,6 @@ dependencies {
     //MORE ICONS
     implementation(libs.androidx.material.extended)
     implementation("com.itextpdf:itextpdf:5.5.13.2")
+    implementation ("androidx.compose.ui:ui-text:1.2.0-alpha02")
+
 }
