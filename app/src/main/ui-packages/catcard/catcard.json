@@ -1,0 +1,123 @@
+{
+  "name": "catcard",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "uTPqDI6HVUwGrrnlV1FWZK",
+    "node": "1:6",
+    "version": "6168993322",
+    "component-id": "f0b223d735de479e52621d5ec5144b178bf09455"
+  },
+  "default": "catcard",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "image",
+        "id": "imagencat"
+      },
+      {
+        "type": "text",
+        "id": "LunaCat"
+      }
+    ],
+    "modes": {
+      "catcard": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": false,
+            "children": [
+              "imagencat",
+              "LunaCat"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            }
+          },
+          {
+            "id": "imagencat",
+            "border-radius": 8.0,
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 12.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": -0.5
+              }
+            },
+            "tap-handler": "$imgClick",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 135.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 135.0
+              }
+            },
+            "image-content": "imagencat.png",
+            "scale": "cover"
+          },
+          {
+            "id": "LunaCat",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 73.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": -0.5
+              }
+            },
+            "font-weight": 700.0,
+            "text-content": "$tituloCarta",
+            "overflow": "visible",
+            "text-align": "left",
+            "text-size": 24.0,
+            "line-height": 1.2102272510528564,
+            "typeface": "Inter"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "imgClick": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "tituloCarta": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "catcard",
+      "size": {
+        "width": 347.0,
+        "height": 170.0
+      },
+      "parameters": {
+        "tituloCarta": "LunaCat"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
