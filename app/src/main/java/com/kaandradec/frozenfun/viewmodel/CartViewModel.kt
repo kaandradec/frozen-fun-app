@@ -1,36 +1,55 @@
 package com.kaandradec.frozenfun.viewmodel
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
+import android.os.Environment
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import com.kaandradec.frozenfun.MainActivity
 import com.kaandradec.frozenfun.model.CartItem
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class CartViewModel : ViewModel() {
-    val cartItems = mutableStateListOf<CartItem>()
 
     fun addItem(item: CartItem) {
-        cartItems.add(item)
+        _cartItems.add(item)
     }
 
     fun removeItem(item: CartItem) {
-        cartItems.remove(item)
+        _cartItems.remove(item)
     }
+
+    private val _cartItems = mutableStateListOf<CartItem>()
+    val cartItems: List<CartItem> get() = _cartItems
 
     fun clearCart() {
-        cartItems.clear()
+        _cartItems.clear()
     }
 
-    fun getAllItems(): List<CartItem> {
-        return cartItems
+    fun addHelado(helado: CartItem) {
+        val existingHelado = _cartItems.find { it.id == helado.id }
+        if (existingHelado != null) {
+            val index = _cartItems.indexOf(existingHelado)
+            _cartItems[index] = existingHelado.copy(quantity = existingHelado.quantity + 1)
+        } else {
+            _cartItems.add(helado.copy(quantity = 1))
+        }
+    }
+
+    fun removeHelado(helado: CartItem) {
+        val existingHelado = _cartItems.find { it.id == helado.id }
+        if (existingHelado != null) {
+            val index = _cartItems.indexOf(existingHelado)
+            if (existingHelado.quantity > 1) {
+                _cartItems[index] = existingHelado.copy(quantity = existingHelado.quantity - 1)
+            } else {
+                _cartItems.remove(existingHelado)
+            }
+        }
     }
 }
-
-var listaFalsa = listOf(
-    CartItem("1", "Chocolate", 5.0, 2),
-    CartItem("2", "Vainilla", 6.0, 1),
-    CartItem("3", "Fresa", 6.0, 1),
-    CartItem("4", "Limón", 6.0, 1),
-    CartItem("5", "Menta", 6.0, 1),
-    CartItem("6", "Nata", 5.0, 2),
-    CartItem("7", "Oreo", 8.0, 1),
-    CartItem("8", "Stracciatella", 8.0, 1),
-)
