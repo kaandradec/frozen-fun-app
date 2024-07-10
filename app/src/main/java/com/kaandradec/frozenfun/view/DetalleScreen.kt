@@ -2,6 +2,7 @@ package com.kaandradec.frozenfun.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,12 @@ import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,6 +46,7 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.kaandradec.frozenfun.R
 import com.kaandradec.frozenfun.data.Database
+import com.kaandradec.frozenfun.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
@@ -128,6 +135,7 @@ fun DetalleScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Spacer(modifier =   Modifier.height(getStatusBarHeightDp()))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -140,11 +148,31 @@ fun DetalleScreen(
                 )  // Redondea solo las esquinas inferiores
         ) {
             Image(
-                painter = painterResource(id = cartItem?.image ?: R.drawable.images), // TODO Falta definir una imagen por defecto
+                painter = painterResource(
+                    id = cartItem?.image ?: R.drawable.images
+                ), // TODO Falta definir una imagen por defecto
                 contentDescription = "Imagen del helado",
                 contentScale = ContentScale.Crop,  // Esto asegura que la imagen haga "fill"
                 modifier = Modifier.fillMaxSize()
             )
+            // Icono para regresar
+            IconButton(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .zIndex(1f)  // Esto coloca el icono sobre la imagen
+                    .align(Alignment.TopStart)  // Esto coloca el icono en la esquina superior izquierda
+                    .background(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Regresar",
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
             // Column que contiene los botones de incrementar y decrementar la cantidad
             Column(
                 modifier = Modifier
@@ -221,7 +249,7 @@ fun DetalleScreen(
             )
 
             Text(
-                text =  cartItem?.descripcion ?: "Descripción no encontrada",
+                text = cartItem?.descripcion ?: "Descripción no encontrada",
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.secondary,
             )
@@ -237,7 +265,13 @@ fun DetalleScreen(
                 .padding(32.dp)  // Agrega un padding alrededor del botón
 
         ) {
-            Text(text = "Añadir al carrito", fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(8.dp))
+            Text(
+                text = "Añadir al carrito",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(8.dp)
+            )
         }
     }
 }
+
