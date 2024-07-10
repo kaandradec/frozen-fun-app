@@ -16,6 +16,9 @@ import java.io.IOException
 
 class CartViewModel : ViewModel() {
 
+    private val _cartItems = mutableStateListOf<CartItem>()
+    val cartItems: List<CartItem> get() = _cartItems
+
     fun addItem(item: CartItem) {
         _cartItems.add(item)
     }
@@ -24,11 +27,14 @@ class CartViewModel : ViewModel() {
         _cartItems.remove(item)
     }
 
-    private val _cartItems = mutableStateListOf<CartItem>()
-    val cartItems: List<CartItem> get() = _cartItems
 
     fun clearCart() {
         _cartItems.clear()
+    }
+
+    fun findItemById(id: Int): CartItem? {
+        println("ID es: $id")
+        return _cartItems.find { it.id == id }
     }
 
     fun addHelado(helado: CartItem) {

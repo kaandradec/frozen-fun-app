@@ -1,43 +1,109 @@
 package com.kaandradec.frozenfun.view
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.kaandradec.frozenfun.R
+import com.kaandradec.frozenfun.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
-
 
 @Composable
 fun SeleccionarScreen(
     navController: NavHostController,
     cartViewModel: CartViewModel
 ) {
-    var listaMenu by remember { mutableStateOf(
-        listOf(
-            CartItem(1, "Cono simple", 1.0, "cono_simple", 0),
-            CartItem(2, "Cono doble", 3.0, "cono_doble", 0),
-            CartItem(3, "Tulipan 2 sabores", 3.0, "tulipan", 0),
-            CartItem(4, "Banana Split", 1.0, "banana_split", 0),
-            CartItem(5, "Helado copa doble", 2.5, "copa_doble", 0),
-            CartItem(3, "Tulipan 2 sab. + queso + crema", 3.0, "tulipan_queso", 0)
-           )
-    )}
+    var listaMenu by remember {
+        mutableStateOf(
+            listOf(
+                CartItem(
+                    1,
+                    "Cono simple",
+                    1.0,
+                    "cono_simple",
+                    0,
+                    descripcion = "Cono simple de helado de vainilla",
+                    sabores = listOf("Vainilla"),
+                    image = com.kaandradec.frozenfun.R.drawable.images
+                ),
+                CartItem(
+                    2,
+                    "Cono doble",
+                    3.0,
+                    "cono_doble",
+                    0,
+                    descripcion = "Cono doble de helado de vainilla y chocolate",
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    image = com.kaandradec.frozenfun.R.drawable.doble
+                ),
+                CartItem(
+                    3,
+                    "Tulipan 2 sabores",
+                    3.0,
+                    "tulipan",
+                    0,
+                    descripcion = "Tulipan de helado de vainilla y chocolate",
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    image = com.kaandradec.frozenfun.R.drawable.tuli_sabores
+                ),
+                CartItem(
+                    4,
+                    "Banana Split",
+                    1.0,
+                    "banana_split",
+                    0,
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    descripcion = "Banana Split de helado de vainilla y chocolate",
+                    image = com.kaandradec.frozenfun.R.drawable.banana
+                ),
+                CartItem(
+                    5,
+                    "Helado copa doble",
+                    2.5,
+                    "copa_doble",
+                    0,
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    descripcion = "Copa doble de helado de vainilla y chocolate",
+                    image = com.kaandradec.frozenfun.R.drawable.copa_doble
+                ),
+                CartItem(
+                    3,
+                    "Tulipan extra",
+                    3.0,
+                    "tulipan_queso",
+                    0,
+                    sabores = listOf("Vainilla", "Chocolate", "Queso", "Crema"),
+                    descripcion = "Tulipan de helado de vainilla y chocolate con queso y crema",
+                    image = com.kaandradec.frozenfun.R.drawable.tuli_sabores_queso
+                )
+            )
+        )
+    }
 
     var itemCount by remember { mutableStateOf(0) }
 
@@ -67,126 +133,179 @@ fun SeleccionarScreen(
         }
     }
 
+    val statusBarHeight = getStatusBarHeightDp()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+            .padding(16.dp, 0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
-            Text(text = "        Pantalla Seleccionar", fontSize = 24.sp,
-                fontWeight = FontWeight.Bold)
-            BadgedBox(
-                badge = {
-                    if (cartViewModel.cartItems.isNotEmpty()) {
-                        Badge(
-                            containerColor = Color.Red,
-                            contentColor = Color.White
-                        ) {
-                            Text("${cartViewModel.cartItems.sumBy { it.quantity }}")
-                        }
-                    }
-                },
-                modifier = Modifier.clickable {
-                    navController.navigate(Screen.Carrito)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ShoppingCart,
-                    contentDescription = "Ir al carrito"
-                )
-            }
-        }
-
+        Spacer(modifier = Modifier.height(statusBarHeight))
+        PantallaHeader(navController = navController, cartViewModel = cartViewModel)
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
             items(listaMenu) { helado ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    onClick = { /* Handle card click if needed */ }
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // Imagen del helado
-                        val imagePainter = painterResource(id = getResourceId(helado.imagen))
-                        Image(
-                            painter = imagePainter,
-                            contentDescription = "Imagen de ${helado.nombre}",
-                            modifier = Modifier
-                                .size(125.dp)
-                                .padding(end = 16.dp)
-                        )
-
-                        // Detalles del helado
-                        Column(
-
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-
-                        ) {
-                            // Nombre del helado
-                            Text(text = "Nombre: ${helado.nombre}")
-
-                            // Precio del helado
-                            Text(text = "Precio: $${helado.precio}")
-
-                            // Botones de cantidad
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center,
-                                modifier = Modifier.padding(8.dp)
-                            ) {
-                                Button(onClick = { decreaseQuantity(helado.id) }) {
-                                    Text(text = "-")
-                                }
-
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                Text(text = helado.quantity.toString())
-
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                Button(onClick = { increaseQuantity(helado.id) }) {
-                                    Text(text = "+")
-                                }
-                            }
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(70.dp))
+                HeladoItem(
+                    helado = helado,
+                    onIncrease = { heladoId -> increaseQuantity(heladoId) },
+                    onDecrease = { heladoId -> decreaseQuantity(heladoId) },
+                    navController = navController
+                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
 }
 
-// Función para obtener el ID del recurso de imagen
-fun getResourceId(imageName: String): Int {
-    return when (imageName) {
-        "cono_simple" -> com.kaandradec.frozenfun.R.drawable.images
-        "cono_doble" -> com.kaandradec.frozenfun.R.drawable.doble
-        "tulipan" -> com.kaandradec.frozenfun.R.drawable.tuli_sabores
-        "banana_split" -> com.kaandradec.frozenfun.R.drawable.banana
-        "copa_doble" -> com.kaandradec.frozenfun.R.drawable.copa_doble
-        "tulipan_queso" -> com.kaandradec.frozenfun.R.drawable.tuli_sabores_queso
-        else -> com.kaandradec.frozenfun.R.drawable.images // Fallback
+@SuppressLint("ResourceType")
+@Composable
+fun HeladoItem(
+    helado: CartItem,
+    onIncrease: (Int) -> Unit,
+    onDecrease: (Int) -> Unit,
+    navController: NavHostController
+) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth(),
+        onClick = { navController.navigate(Screen.Detalle(helado.id)) }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(144.dp)
+                    .fillMaxHeight()
+                    .aspectRatio(1f)  // Esto asegura que la imagen sea un cuadrado
+                    .clip(
+                        RoundedCornerShape(16.dp)
+                    )  // Redondea solo las esquinas inferiores
+            ) {
+                // Imagen del helado
+                Image(
+                    painter = painterResource(id = helado.image),
+                    contentDescription = "Ice Cream",
+                    contentScale = ContentScale.Crop,  // Esto asegura que la imagen haga "fill"
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            // Detalles del helado
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = helado.nombre,
+                    fontSize = 24.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.width(IntrinsicSize.Min)
+                )
+                Text(
+                    text = "$${helado.precio}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.width(IntrinsicSize.Min)
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(16.dp, 0.dp)
+                    .background(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .wrapContentWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                IconButton(
+                    onClick = { onIncrease(helado.id) },
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(
+                            MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Aumentar Cantidad",
+                        tint = Color.White
+                    )
+                }
+
+                Text(
+                    text = helado.quantity.toString().padStart(2, '0'),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+
+                IconButton(
+                    onClick = { onDecrease(helado.id) },
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(
+                            MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Remove,
+                        contentDescription = "Disminuir Cantidad",
+                        tint = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun PantallaHeader(
+    navController: NavHostController,
+    cartViewModel: CartViewModel
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Elige tus helados",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+        )
+        BadgedBox(
+            badge = {
+                if (cartViewModel.cartItems.isNotEmpty()) {
+                    Badge(
+                        containerColor = Color.Red,
+                        contentColor = Color.White
+                    ) {
+                        Text("${cartViewModel.cartItems.sumBy { it.quantity }}")
+                    }
+                }
+            },
+            modifier = Modifier.clickable {
+                navController.navigate(Screen.Carrito)
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ShoppingCart,
+                contentDescription = "Ir al carrito"
+            )
+        }
     }
 }

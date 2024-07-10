@@ -28,10 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.itextpdf.text.Document
-import com.itextpdf.text.Element
-import com.itextpdf.text.Paragraph
-import com.itextpdf.text.pdf.PdfWriter
+
 import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.navigation.SetupGraph
 import com.kaandradec.frozenfun.ui.theme.FrozenFunTheme

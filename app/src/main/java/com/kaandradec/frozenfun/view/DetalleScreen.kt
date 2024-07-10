@@ -37,15 +37,93 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavHostController
 import com.kaandradec.frozenfun.R
+import com.kaandradec.frozenfun.data.Database
+import com.kaandradec.frozenfun.model.CartItem
+import com.kaandradec.frozenfun.viewmodel.CartViewModel
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
-@Preview(showBackground = true)
 @Composable
-fun AjustesScreen(
+fun DetalleScreen(
+    navController: NavHostController,
+    cartViewModel: CartViewModel,
+    id: Int
 ) {
+    val listaMenu by remember {
+        mutableStateOf(
+            listOf(
+                CartItem(
+                    1,
+                    "Cono simple",
+                    1.0,
+                    "cono_simple",
+                    0,
+                    descripcion = "Cono simple de helado de vainilla",
+                    sabores = listOf("Vainilla"),
+                    image = com.kaandradec.frozenfun.R.drawable.images
+                ),
+                CartItem(
+                    2,
+                    "Cono doble",
+                    3.0,
+                    "cono_doble",
+                    0,
+                    descripcion = "Cono doble de helado de vainilla y chocolate",
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    image = com.kaandradec.frozenfun.R.drawable.doble
+                ),
+                CartItem(
+                    3,
+                    "Tulipan 2 sabores",
+                    3.0,
+                    "tulipan",
+                    0,
+                    descripcion = "Tulipan de helado de vainilla y chocolate",
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    image = com.kaandradec.frozenfun.R.drawable.tuli_sabores
+                ),
+                CartItem(
+                    4,
+                    "Banana Split",
+                    1.0,
+                    "banana_split",
+                    0,
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    descripcion = "Banana Split de helado de vainilla y chocolate",
+                    image = com.kaandradec.frozenfun.R.drawable.banana
+                ),
+                CartItem(
+                    5,
+                    "Helado copa doble",
+                    2.5,
+                    "copa_doble",
+                    0,
+                    sabores = listOf("Vainilla", "Chocolate"),
+                    descripcion = "Copa doble de helado de vainilla y chocolate",
+                    image = com.kaandradec.frozenfun.R.drawable.copa_doble
+                ),
+                CartItem(
+                    3,
+                    "Tulipan extra",
+                    3.0,
+                    "tulipan_queso",
+                    0,
+                    sabores = listOf("Vainilla", "Chocolate", "Queso", "Crema"),
+                    descripcion = "Tulipan de helado de vainilla y chocolate con queso y crema",
+                    image = com.kaandradec.frozenfun.R.drawable.tuli_sabores_queso
+                )
+            )
+        )
+    }
 
-    var quantity by remember { mutableStateOf(2) }
+    val cartItem = listaMenu.find { it.id == id }
+    if (cartItem == null) {
+        println("Error: Producto con id $id no encontrado.")
+        return
+    }
+
+    var quantity by remember { mutableStateOf(0) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,8 +140,8 @@ fun AjustesScreen(
                 )  // Redondea solo las esquinas inferiores
         ) {
             Image(
-                painter = painterResource(id = R.drawable.banana),
-                contentDescription = "Ice Cream",
+                painter = painterResource(id = cartItem?.image ?: R.drawable.images), // TODO Falta definir una imagen por defecto
+                contentDescription = "Imagen del helado",
                 contentScale = ContentScale.Crop,  // Esto asegura que la imagen haga "fill"
                 modifier = Modifier.fillMaxSize()
             )
@@ -121,7 +199,7 @@ fun AjustesScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = "Banana Split",
+                text = cartItem?.nombre ?: "Helado no encontrado",
                 lineHeight = 32.sp,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
@@ -129,21 +207,21 @@ fun AjustesScreen(
             )
 
             Text(
-                text = "Chocolate, vainilla y fresa",
+                text = cartItem?.sabores?.joinToString(", ") ?: "Sabores no encontrados",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.secondary
             )
 
             Text(
-                text = "$4.00",
+                text = "$${cartItem?.precio ?: 0.0}",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
 
             Text(
-                text = "Este helado es una delicia, con tres sabores diferentes y una presentación espectacular. ¡No te lo pierdas!",
+                text =  cartItem?.descripcion ?: "Descripción no encontrada",
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.secondary,
             )

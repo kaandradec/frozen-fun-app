@@ -31,17 +31,66 @@ fun PersonalizarScreen(
     cartViewModel: CartViewModel
 ) {
     val helados = listOf(
-        CartItem(1, "Helado de Vainilla", 1.0, "helado_vainilla", 0),
-        CartItem(2, "Helado de Chocolate", 3.0, "helado_chocolate", 0),
-        CartItem(3, "Helado de Fresa", 3.0, "helado_fresa", 0),
-        CartItem(4, "Helado de Limón", 3.0, "helado_limon", 0),
-        CartItem(5, "Helado de Naranja", 2.5, "helado_naranja", 0),
-        CartItem(6, "Helado de Maracuya", 4.0, "helado_maracuya", 0),
-        CartItem(7, "Helado de Mango", 2.5, "helado_mango", 0),
-        CartItem(8, "Helado de Agua", 1.5, "helado_agua", 0),
-        CartItem(9, "Helado de Café", 2.5, "helado_cafe", 0),
-        CartItem(10, "Helado de Dulce de Leche", 3.5, "helado_dulce_de_leche", 0),
-        CartItem(11, "Helado de Dulce de Leche con Leche", 4.0, "helado_Dulce_de_Leche", 0)
+        CartItem(
+            1,
+            "Cono simple",
+            1.0,
+            "cono_simple",
+            0,
+            descripcion = "Cono simple de helado de vainilla",
+            sabores = listOf("Vainilla"),
+            image = com.kaandradec.frozenfun.R.drawable.images
+        ),
+        CartItem(
+            2,
+            "Cono doble",
+            3.0,
+            "cono_doble",
+            0,
+            descripcion = "Cono doble de helado de vainilla y chocolate",
+            sabores = listOf("Vainilla", "Chocolate"),
+            image = com.kaandradec.frozenfun.R.drawable.doble
+        ),
+        CartItem(
+            3,
+            "Tulipan 2 sabores",
+            3.0,
+            "tulipan",
+            0,
+            descripcion = "Tulipan de helado de vainilla y chocolate",
+            sabores = listOf("Vainilla", "Chocolate"),
+            image = com.kaandradec.frozenfun.R.drawable.tuli_sabores
+        ),
+        CartItem(
+            4,
+            "Banana Split",
+            1.0,
+            "banana_split",
+            0,
+            sabores = listOf("Vainilla", "Chocolate"),
+            descripcion = "Banana Split de helado de vainilla y chocolate",
+            image = com.kaandradec.frozenfun.R.drawable.banana
+        ),
+        CartItem(
+            5,
+            "Helado copa doble",
+            2.5,
+            "copa_doble",
+            0,
+            sabores = listOf("Vainilla", "Chocolate"),
+            descripcion = "Copa doble de helado de vainilla y chocolate",
+            image = com.kaandradec.frozenfun.R.drawable.copa_doble
+        ),
+        CartItem(
+            3,
+            "Tulipan extra",
+            3.0,
+            "tulipan_queso",
+            0,
+            sabores = listOf("Vainilla", "Chocolate", "Queso", "Crema"),
+            descripcion = "Tulipan de helado de vainilla y chocolate con queso y crema",
+            image = com.kaandradec.frozenfun.R.drawable.tuli_sabores_queso
+        )
     )
 
     Column(

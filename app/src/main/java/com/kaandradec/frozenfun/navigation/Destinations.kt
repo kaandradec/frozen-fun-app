@@ -15,4 +15,7 @@ sealed class Screen {
     @Serializable
     data object Carrito : Screen()
 
+    @Serializable
+    data class Detalle(val id: Int) : Screen()
+
 }
