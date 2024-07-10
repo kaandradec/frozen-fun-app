@@ -1,0 +1,443 @@
+{
+  "name": "helado",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "CFG3Qw2g59S1UVwBCGx3Fn",
+    "node": "0:288",
+    "version": "6170001206",
+    "component-id": "e601dbac5f4ef8b2b3502a9aa0f40a1881c29040"
+  },
+  "default": "helado",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "image",
+        "id": "Rectangle 1"
+      },
+      {
+        "type": "group",
+        "id": "Frame 2"
+      },
+      {
+        "type": "group",
+        "id": "infoContenedor"
+      },
+      {
+        "type": "group",
+        "id": "Frame 3"
+      },
+      {
+        "type": "text",
+        "id": "02"
+      },
+      {
+        "type": "group",
+        "id": "Frame 4"
+      },
+      {
+        "type": "group",
+        "id": "Plus"
+      },
+      {
+        "type": "vector",
+        "id": "PlusIcon"
+      },
+      {
+        "type": "group",
+        "id": "Minus"
+      },
+      {
+        "type": "vector",
+        "id": "MinusIcon"
+      },
+      {
+        "type": "text",
+        "id": "Chispas y más chispas"
+      },
+      {
+        "type": "text",
+        "id": "Blue Berry"
+      },
+      {
+        "type": "text",
+        "id": "$4.00"
+      },
+      {
+        "type": "text",
+        "id": "Este helado contiene chistas de sabores junto a chicles y M&Ms."
+      }
+    ],
+    "modes": {
+      "helado": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": false,
+            "children": [
+              "Rectangle 1",
+              "Frame 2",
+              "infoContenedor"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Rectangle 1",
+            "margin": {
+              "bottom": 285.0
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "image-content": "rectangle_1.jpeg",
+            "scale": "cover"
+          },
+          {
+            "id": "Frame 2",
+            "margin": {
+              "left": 280.0,
+              "top": 279.0,
+              "right": 32.0,
+              "bottom": 246.0
+            },
+            "border-radius": 8.0,
+            "main-axis-align": "space-between",
+            "children": [
+              "Frame 3",
+              "02",
+              "Frame 4"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            }
+          },
+          {
+            "id": "infoContenedor",
+            "padding": {
+              "left": 24.0,
+              "top": 11.0,
+              "right": 24.0,
+              "bottom": 11.0
+            },
+            "margin": {
+              "top": 399.0,
+              "bottom": 85.0
+            },
+            "cross-axis-align": "start",
+            "children": [
+              "Chispas y más chispas",
+              "Blue Berry",
+              "$4.00",
+              "Este helado contiene chistas de sabores junto a chicles y M&Ms."
+            ],
+            "item-spacing": 8.0
+          },
+          {
+            "id": "Frame 3",
+            "border-radius": 8.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "Plus"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 262.94117647058823,
+              "saturation": 0.1333333333333333,
+              "value": 1.0
+            }
+          },
+          {
+            "id": "02",
+            "font-weight": 500.0,
+            "color": {
+              "alpha": 1.0,
+              "hue": 256.551724137931,
+              "saturation": 0.4055944055944056,
+              "value": 0.5607843137254902
+            },
+            "text-content": "02",
+            "overflow": "visible",
+            "text-align": "left",
+            "text-align-vertical": "center",
+            "text-size": 22.0,
+            "line-height": 1.2102272727272727,
+            "typeface": "Inter"
+          },
+          {
+            "id": "Frame 4",
+            "border-radius": 8.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "Minus"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 262.94117647058823,
+              "saturation": 0.1333333333333333,
+              "value": 1.0
+            }
+          },
+          {
+            "id": "Plus",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 24.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 24.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "PlusIcon"
+            ]
+          },
+          {
+            "id": "PlusIcon",
+            "margin": 5.0,
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -2.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -2.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "plus_icon.svg"
+          },
+          {
+            "id": "Minus",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 24.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 24.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "MinusIcon"
+            ]
+          },
+          {
+            "id": "MinusIcon",
+            "margin": {
+              "left": 5.0,
+              "top": 12.0,
+              "right": 5.0,
+              "bottom": 12.0
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -2.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -2.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "minus_icon.svg"
+          },
+          {
+            "id": "Chispas y más chispas",
+            "font-weight": 600.0,
+            "color": {
+              "alpha": 1.0,
+              "hue": 256.551724137931,
+              "saturation": 0.4055944055944056,
+              "value": 0.5607843137254902
+            },
+            "annotated-text-content": {
+              "text": "Chispas y más chispas",
+              "annotated-text-span-list": [
+                {
+                  "span-start": 0,
+                  "span-length": 14,
+                  "annotated-text-style": {
+                    "font-weight": 700.0,
+                    "typeface": "Inter"
+                  }
+                },
+                {
+                  "span-start": 14,
+                  "span-length": 7,
+                  "annotated-text-style": {
+                    "font-weight": 700.0,
+                    "typeface": "Inter",
+                    "color": {
+                      "alpha": 1.0,
+                      "hue": 256.551724137931,
+                      "saturation": 0.4055944055944056,
+                      "value": 0.5607843137254902
+                    }
+                  }
+                }
+              ]
+            },
+            "overflow": "visible",
+            "text-align": "left",
+            "text-align-vertical": "center",
+            "text-size": 22.0,
+            "line-height": 1.2102272727272727,
+            "typeface": "Inter"
+          },
+          {
+            "id": "Blue Berry",
+            "font-weight": 600.0,
+            "color": {
+              "alpha": 1.0,
+              "hue": 259.0909090909091,
+              "saturation": 0.1946902654867256,
+              "value": 0.44313725490196076
+            },
+            "text-content": "Blue Berry",
+            "overflow": "visible",
+            "text-align": "left",
+            "text-align-vertical": "center",
+            "text-size": 22.0,
+            "line-height": 1.2102272727272727,
+            "typeface": "Inter"
+          },
+          {
+            "id": "$4.00",
+            "font-weight": 600.0,
+            "color": {
+              "alpha": 1.0,
+              "hue": 256.551724137931,
+              "saturation": 0.4055944055944056,
+              "value": 0.5607843137254902
+            },
+            "text-content": "\\$4.00",
+            "overflow": "visible",
+            "text-align": "left",
+            "text-align-vertical": "center",
+            "text-size": 22.0,
+            "line-height": 1.2102272727272727,
+            "typeface": "Inter"
+          },
+          {
+            "id": "Este helado contiene chistas de sabores junto a chicles y M&Ms.",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 285.0
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "font-weight": 600.0,
+            "color": {
+              "alpha": 1.0,
+              "hue": 256.551724137931,
+              "saturation": 0.4055944055944056,
+              "value": 0.5607843137254902
+            },
+            "text-content": "Este helado contiene chistas de sabores junto a chicles y M&Ms.",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-align-vertical": "center",
+            "line-height": 1.2102272851126534,
+            "typeface": "Inter"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "helado",
+      "size": {
+        "width": 360.0,
+        "height": 645.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
