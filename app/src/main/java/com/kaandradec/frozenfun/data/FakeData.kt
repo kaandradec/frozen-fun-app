@@ -1,6 +1,7 @@
 package com.kaandradec.frozenfun.data
 
 import androidx.compose.runtime.mutableStateListOf
+import com.kaandradec.frozenfun.R
 import com.kaandradec.frozenfun.model.CartItem
 
 val listaFake = listOf(
@@ -10,9 +11,13 @@ val listaFake = listOf(
         1.0,
         "cono_simple",
         0,
-        descripcion = "Cono simple de helado de vainilla",
-        sabores = listOf("Vainilla"),
-        image = com.kaandradec.frozenfun.R.drawable.images
+        descripcion = "Cono simple con 1 sabor de helado",
+        sabores = mutableListOf(""),
+        saboresSeleccionados = mutableListOf(),
+        image = R.drawable.images,
+        grageasSeleccionadas = mutableListOf(),
+        extrasSeleccionados = mutableListOf(),
+        tipo = "Cono"
     ),
     CartItem(
         2,
@@ -20,9 +25,13 @@ val listaFake = listOf(
         3.0,
         "cono_doble",
         0,
-        descripcion = "Cono doble de helado de vainilla y chocolate",
-        sabores = listOf("Vainilla", "Chocolate"),
-        image = com.kaandradec.frozenfun.R.drawable.doble
+        descripcion = "  Cono doble de helado de vainilla y chocolate",
+        sabores = mutableListOf(""),
+        saboresSeleccionados = mutableListOf(),
+        image = R.drawable.doble,
+        grageasSeleccionadas = mutableListOf(),
+        extrasSeleccionados = mutableListOf(),
+        tipo = "Cono"
     ),
     CartItem(
         3,
@@ -30,39 +39,13 @@ val listaFake = listOf(
         3.0,
         "tulipan",
         0,
-        descripcion = "Tulipan de helado de vainilla y chocolate",
-        sabores = listOf("Vainilla", "Chocolate"),
-        image = com.kaandradec.frozenfun.R.drawable.tuli_sabores
-    ),
-    CartItem(
-        4,
-        "Banana Split",
-        1.0,
-        "banana_split",
-        0,
-        sabores = listOf("Vainilla", "Chocolate"),
-        descripcion = "Banana Split de helado de vainilla y chocolate",
-        image = com.kaandradec.frozenfun.R.drawable.banana
-    ),
-    CartItem(
-        5,
-        "Helado copa doble",
-        2.5,
-        "copa_doble",
-        0,
-        sabores = listOf("Vainilla", "Chocolate"),
-        descripcion = "Copa doble de helado de vainilla y chocolate",
-        image = com.kaandradec.frozenfun.R.drawable.copa_doble
-    ),
-    CartItem(
-        3,
-        "Tulipan extra",
-        3.0,
-        "tulipan_queso",
-        0,
-        sabores = listOf("Vainilla", "Chocolate", "Queso", "Crema"),
-        descripcion = "Tulipan de helado de vainilla y chocolate con queso y crema",
-        image = com.kaandradec.frozenfun.R.drawable.tuli_sabores_queso
+        descripcion = "     Tulipan de helado de vainilla y chocolate",
+        sabores = mutableListOf(""),
+        saboresSeleccionados = mutableListOf(),
+        image = R.drawable.tuli_sabores,
+        grageasSeleccionadas = mutableListOf(),
+        extrasSeleccionados = mutableListOf(),
+        tipo = "Tulipan"
     )
 )
 

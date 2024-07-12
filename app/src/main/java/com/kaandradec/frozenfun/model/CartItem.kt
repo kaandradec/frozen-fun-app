@@ -6,7 +6,15 @@ data class CartItem(
     val precio: Double,
     val imagen: String,
     var quantity: Int,
-    val sabores: List<String>,
+    val sabores: List<String> = listOf(
+        "Vainilla", "Maracuya", "Yogurt mora", "Chicle", "Galleta",
+        "Manjar", "Kinder", "Café", "Guanabana", "Fresa", "Naranjilla",
+        "Yogurt durazno", "Chocolate", "Tamarindo", "Mora", "Ron pasas"
+    ),
     val descripcion: String,
-    val image: Int
+    val image: Int,
+    var saboresSeleccionados: List<String>, // Actualiza con los sabores seleccionados
+    var grageasSeleccionadas: MutableList<String> = mutableListOf(),
+    var extrasSeleccionados: MutableList<String> = mutableListOf(),
+    val tipo: String
 )
