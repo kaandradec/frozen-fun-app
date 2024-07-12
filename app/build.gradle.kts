@@ -72,11 +72,15 @@ dependencies {
     // NAVIGATION
     implementation(libs.ui)
     implementation(libs.androidx.navigation.compose)
-    implementation (libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
 
     //MORE ICONS
     implementation(libs.androidx.material.extended)
-    implementation("com.itextpdf:itextpdf:5.5.13.2")
-    implementation ("androidx.compose.ui:ui-text:1.2.0-alpha02")
+    implementation("androidx.compose.ui:ui-text:1.2.0-alpha02")
 
+    // PDF
+    implementation(libs.pdfium.android)
+    implementation(libs.itextpdf)
+
+    implementation("io.coil-kt:coil-compose:1.4.0")
 }

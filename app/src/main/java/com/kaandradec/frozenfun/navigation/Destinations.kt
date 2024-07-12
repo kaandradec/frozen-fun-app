@@ -7,7 +7,7 @@ sealed class Screen {
     data object Seleccionar : Screen()
 
     @Serializable
-    data object Personalizar: Screen()
+    data object Personalizar : Screen()
 
     @Serializable
     data object Ajustes : Screen()
@@ -16,6 +16,12 @@ sealed class Screen {
     data object Carrito : Screen()
 
     @Serializable
+    data object Test : Screen()
+
+    @Serializable
     data class Detalle(val id: Int) : Screen()
+
+    @Serializable
+    data class Factura(val cedula: String, val correo: String) : Screen()
 
 }
