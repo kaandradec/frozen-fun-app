@@ -2,4 +2,14 @@
 <resources>
 
     <style name="Theme.FrozenFun" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="SplashTheme.Light" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_light</item>
+    </style>
+
+    <style name="SplashTheme.Dark" parent="android:ThemeOverlay.Material.Dark.ActionBar">
+        <item name="android:windowBackground">@drawable/splash_dark</item>
+    </style>
+
+
 </resources>
