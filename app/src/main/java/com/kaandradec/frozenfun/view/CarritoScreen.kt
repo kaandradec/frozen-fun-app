@@ -48,6 +48,7 @@ import com.kaandradec.frozenfun.viewmodel.CartViewModel
 fun CarritoScreen(
     navController: NavHostController,
     cartViewModel: CartViewModel
+
 ) {
     val cartItems = cartViewModel.cartItems
 
@@ -60,7 +61,10 @@ fun CarritoScreen(
             modifier = Modifier
                 .weight(1f)
         ) {
-            CartHeader(onBackClick = { navController.popBackStack() }, cartViewModel = cartViewModel)
+            CartHeader(
+                onBackClick = { navController.popBackStack() },
+                cartViewModel = cartViewModel
+            )
             CartItemList(
                 items = cartItems,
                 onIncrement = { cartViewModel.addHelado(it) },
@@ -82,7 +86,7 @@ fun CarritoScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    navController.navigate(Screen.Factura("1234", "ejempl@gmail.com"))
+                    navController.navigate(Screen.Datos)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -91,7 +95,6 @@ fun CarritoScreen(
         }
     }
 }
-
 
 
 @Composable

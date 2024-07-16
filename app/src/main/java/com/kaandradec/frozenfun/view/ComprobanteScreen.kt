@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -61,22 +62,17 @@ import java.util.Locale
 import kotlin.random.Random
 
 @Composable
-fun FacturaScreen(
+fun ComprobanteScreen(
     navController: NavHostController,
     cartViewModel: CartViewModel,
-    nombre: String,
-    apellido: String,
-    telefono: String,
-    email: String,
-    cedula: String,
 ) {
     val context = LocalContext.current
 
     val lista = cartViewModel.cartItems
 
-    createInvoicePdf(context, lista, nombre, apellido, telefono, cedula, email)
+    createComprobanteConsumidorFinalPdf(context, lista)
 
-    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "factura.pdf")
+    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "comprobante.pdf")
 
     Column(
         modifier = Modifier
@@ -84,7 +80,7 @@ fun FacturaScreen(
             .padding(16.dp, 0.dp)
     ) {
 //        Spacer(modifier = Modifier.height(getStatusBarHeightDp()))
-        FacturaHeader(
+        ComprobanteHeader(
             onBackClick = { navController.popBackStack() },
             file = file,
             context = context
@@ -96,11 +92,17 @@ fun FacturaScreen(
             color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
+        Text(
+            text = "Realice el pago en la ventanilla de caja",
+            fontSize = 16.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color = MaterialTheme.colorScheme.secondary
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         PdfViewer(pdfFile = file)
         Button(
-            onClick = { moveFileToDownloads(context, file) },
+            onClick = { moveComprobanteFileToDownloads(context, file) },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(text = "Descargar archivo")
@@ -109,19 +111,13 @@ fun FacturaScreen(
 }
 
 
-@SuppressLint("DefaultLocale")
-fun createInvoicePdf(
-    context: Context,
-    items: List<CartItem>,
-    nombre: String,
-    apellido: String,
-    telefono: String,
-    cedula: String,
-    correo: String
-) {
+fun createComprobanteConsumidorFinalPdf(context: Context, items: List<CartItem>) {
+    val document = Document()
     try {
-        val document = Document()
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "factura.pdf")
+        val file = File(
+            context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+            "comprobante.pdf"
+        )
         PdfWriter.getInstance(document, FileOutputStream(file))
         document.open()
 
@@ -132,56 +128,40 @@ fun createInvoicePdf(
         image.scaleToFit(100f, 100f)
         document.add(image)
 
-        val titleFont = Font(Font.FontFamily.HELVETICA, 18f, Font.BOLD)
+        val titleFont = Font(Font.FontFamily.HELVETICA, 22f, Font.BOLD)
         val font = Font(Font.FontFamily.HELVETICA, 12f, Font.NORMAL)
         val date = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
-
         val invoiceNumber = generateInvoiceNumber()
 
-        document.add(Paragraph("Frozen Fun", titleFont))
-        document.add(Paragraph("PICHINCHA / QUITO / AV. CRISTOBAL COLON Y AV AMERICA", font))
+        document.add(Paragraph("Comprobante de Consumidor Final", titleFont))
         document.add(Paragraph("Fecha: $date", font))
-        document.add(Paragraph("RUC: 1791415132002", font))
-        document.add(Paragraph("Número de Factura: $invoiceNumber", font))
-        document.add(
-            Paragraph(
-                "Nombres y Apellidos: ${nombre.uppercase()} ${apellido.uppercase()}",
-                font
-            )
-        )
-        document.add(Paragraph("Teléfono: $telefono", font))
-        document.add(Paragraph("RUC / CI: $cedula", font))
-        document.add(Paragraph("Fecha Emisión: 10/07/2024", font))
-        document.add(Paragraph("Comprobante que se modifica: FACTURA", font))
-        document.add(Paragraph("Razón de Modificación: Anulación", font))
+        document.add(Paragraph("Número de Comprobante: $invoiceNumber", font))
+
+        // Agregar más detalles del consumidor aquí si es necesario
 
         val table = PdfPTable(5)
         table.widthPercentage = 100f
         val cellFont = Font(Font.FontFamily.HELVETICA, 12f, Font.BOLD)
         val cellBackgroundColor = BaseColor(200, 200, 200)
 
-        val idCell = PdfPCell(Phrase("Código", cellFont))
-        idCell.backgroundColor = cellBackgroundColor
-        table.addCell(idCell)
-
-        val nameCell = PdfPCell(Phrase("Descripción", cellFont))
-        nameCell.backgroundColor = cellBackgroundColor
-        table.addCell(nameCell)
-
-        val quantityCell = PdfPCell(Phrase("Cantidad", cellFont))
-        quantityCell.backgroundColor = cellBackgroundColor
-        table.addCell(quantityCell)
-
-        val priceCell = PdfPCell(Phrase("Precio Unitario", cellFont))
-        priceCell.backgroundColor = cellBackgroundColor
-        table.addCell(priceCell)
-
-        val totalCell = PdfPCell(Phrase("Precio Total", cellFont))
-        totalCell.backgroundColor = cellBackgroundColor
-        table.addCell(totalCell)
+        table.addCell(PdfPCell(Phrase("Código", cellFont)).apply {
+            backgroundColor = cellBackgroundColor
+        })
+        table.addCell(PdfPCell(Phrase("Descripción", cellFont)).apply {
+            backgroundColor = cellBackgroundColor
+        })
+        table.addCell(PdfPCell(Phrase("Cantidad", cellFont)).apply {
+            backgroundColor = cellBackgroundColor
+        })
+        table.addCell(PdfPCell(Phrase("Precio Unitario", cellFont)).apply {
+            backgroundColor = cellBackgroundColor
+        })
+        table.addCell(PdfPCell(Phrase("Precio Total", cellFont)).apply {
+            backgroundColor = cellBackgroundColor
+        })
 
         var subtotal = 0.0
-        for (item in items) {
+        items.forEach { item ->
             table.addCell(item.id.toString())
             table.addCell(item.nombre)
             table.addCell(item.quantity.toString())
@@ -192,20 +172,11 @@ fun createInvoicePdf(
         }
         document.add(table)
 
-        val iva = subtotal * 0.15
+        val iva = subtotal * 0.12 // Asumiendo un IVA del 12%
         val total = subtotal + iva
         document.add(Paragraph("Subtotal: ${String.format("%.2f", subtotal)}", font))
-        document.add(Paragraph("IVA 15%: ${String.format("%.2f", iva)}", font))
+        document.add(Paragraph("IVA 12%: ${String.format("%.2f", iva)}", font))
         document.add(Paragraph("Total: ${String.format("%.2f", total)}", font))
-
-        document.add(Paragraph("CORREO: $correo", font))
-        document.add(Paragraph("ADMINISTRADOR: PEDRO CHAMBA", font))
-        document.add(
-            Paragraph(
-                "Gran Contribuyente: GRAN CONTRIBUYENTE MEDIANTE RESOLUCIÓN NAC-GCFDIOC21-00000090-E",
-                font
-            )
-        )
 
         document.close()
     } catch (e: Exception) {
@@ -213,15 +184,8 @@ fun createInvoicePdf(
     }
 }
 
-@SuppressLint("DefaultLocale")
-fun generateInvoiceNumber(): String {
-    val part1 = Random.nextInt(100, 999)
-    val part2 = Random.nextInt(100, 999)
-    val part3 = Random.nextInt(100000, 999999)
-    return String.format("%03d-%03d-%06d", part1, part2, part3)
-}
 
-fun moveFileToDownloads(context: Context, file: File) {
+fun moveComprobanteFileToDownloads(context: Context, file: File) {
     if (!file.exists()) {
         Toast.makeText(context, "Archivo no existe", Toast.LENGTH_SHORT).show()
         return
@@ -232,7 +196,7 @@ fun moveFileToDownloads(context: Context, file: File) {
 
     // Generamos un nombre de archivo único utilizando la hora actual
     val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-    val newFileName = "factura_$timestamp.pdf"
+    val newFileName = "comprobante_$timestamp.pdf"
     val newFile = File(downloadsDir, newFileName)
 
     try {
@@ -244,7 +208,7 @@ fun moveFileToDownloads(context: Context, file: File) {
         // No borramos el archivo original después de copiarlo
         Toast.makeText(
             context,
-            "Factura guardada en Descargas: $newFileName",
+            "Comprobante guardado en Descargas: $newFileName",
             Toast.LENGTH_SHORT
         ).show()
     } catch (e: Exception) {
@@ -254,7 +218,7 @@ fun moveFileToDownloads(context: Context, file: File) {
 
 
 @Composable
-fun FacturaHeader(
+fun ComprobanteHeader(
     onBackClick: () -> Unit,
     context: Context,
     file: File,
@@ -277,7 +241,7 @@ fun FacturaHeader(
                 )
             }
             Text(
-                text = "Factura",
+                text = "Comprobante",
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
             )
@@ -293,12 +257,12 @@ fun FacturaHeader(
                 .padding(8.dp, 4.dp)
         ) {
             Text(
-                text = "Descargar factura",
+                text = "Descargar",
                 color = MaterialTheme.colorScheme.error
             )
             Icon(
                 imageVector = Icons.Default.Download,
-                contentDescription = "Descargar factura",
+                contentDescription = "Descargar",
                 tint = MaterialTheme.colorScheme.surfaceTint,
                 modifier = Modifier.padding(0.dp)
             )

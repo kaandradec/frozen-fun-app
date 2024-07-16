@@ -8,10 +8,12 @@ import androidx.navigation.toRoute
 import com.kaandradec.frozenfun.view.AddPaymentScreen
 import com.kaandradec.frozenfun.view.AjustesScreen
 import com.kaandradec.frozenfun.view.CarritoScreen
+import com.kaandradec.frozenfun.view.ComprobanteScreen
 import com.kaandradec.frozenfun.view.DatosScreen
 import com.kaandradec.frozenfun.view.DetalleScreen
 import com.kaandradec.frozenfun.view.FacturaScreen
 import com.kaandradec.frozenfun.view.PersonalizarScreen
+import com.kaandradec.frozenfun.view.QRScreen
 import com.kaandradec.frozenfun.view.SeleccionarScreen
 import com.kaandradec.frozenfun.view.TestScreen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
@@ -53,15 +55,36 @@ fun SetupGraph(
             FacturaScreen(
                 navController,
                 cartViewModel,
+                nombre = profile.nombre,
+                apellido = profile.apellido,
+                telefono = profile.telefono,
+                email = profile.email,
                 cedula = profile.cedula,
-                correo = profile.correo
             )
         }
-        composable<Screen.AddPayment> {
-            AddPaymentScreen()
+
+        composable<Screen.Comprobante> {
+            ComprobanteScreen(navController, cartViewModel)
+        }
+        composable<Screen.AddPayment> { backStackEntry ->
+            // En este caso, el argumento heladoId es opcional
+            val profile = backStackEntry.toRoute<Screen.AddPayment>()
+            AddPaymentScreen(
+                navController,
+                nombre = profile.nombre,
+                apellido = profile.apellido,
+                telefono = profile.telefono,
+                email = profile.email,
+                cedula = profile.cedula,
+            )
         }
         composable<Screen.Datos> {
-            DatosScreen()
+            DatosScreen(
+                navController,
+            )
+        }
+        composable<Screen.QR> {
+            QRScreen(navController)
         }
 
 

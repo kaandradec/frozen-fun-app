@@ -22,12 +22,30 @@ sealed class Screen {
     data class Detalle(val id: Int) : Screen()
 
     @Serializable
-    data class Factura(val cedula: String, val correo: String) : Screen()
+    data class Factura(
+        val nombre: String,
+        val apellido: String,
+        val telefono: String,
+        val email: String,
+        val cedula: String,
+    ) : Screen()
 
     @Serializable
-    data object AddPayment : Screen()
+    data object Comprobante : Screen()
+
+    @Serializable
+    data class AddPayment(
+        val nombre: String,
+        val apellido: String,
+        val telefono: String,
+        val email: String,
+        val cedula: String,
+    ) : Screen()
 
     @Serializable
     data object Datos : Screen()
+
+    @Serializable
+    data object QR : Screen()
 
 }
