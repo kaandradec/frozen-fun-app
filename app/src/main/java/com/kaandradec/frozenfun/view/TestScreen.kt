@@ -47,7 +47,7 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.kaandradec.frozenfun.R
-import com.kaandradec.frozenfun.getStatusBarHeightDp
+import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 import com.shockwave.pdfium.PdfiumCore

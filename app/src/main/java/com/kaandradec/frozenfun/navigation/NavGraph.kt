@@ -5,8 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.kaandradec.frozenfun.view.AddPaymentScreen
 import com.kaandradec.frozenfun.view.AjustesScreen
 import com.kaandradec.frozenfun.view.CarritoScreen
+import com.kaandradec.frozenfun.view.DatosScreen
 import com.kaandradec.frozenfun.view.DetalleScreen
 import com.kaandradec.frozenfun.view.FacturaScreen
 import com.kaandradec.frozenfun.view.PersonalizarScreen
@@ -55,6 +57,13 @@ fun SetupGraph(
                 correo = profile.correo
             )
         }
+        composable<Screen.AddPayment> {
+            AddPaymentScreen()
+        }
+        composable<Screen.Datos> {
+            DatosScreen()
+        }
+
 
     }
 }

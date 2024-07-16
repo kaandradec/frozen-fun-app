@@ -115,7 +115,7 @@ class MainActivity : ComponentActivity() {
                                             when (index) {
                                                 0 -> Screen.Seleccionar
                                                 1 -> Screen.Personalizar
-                                                2 -> Screen.Test
+                                                2 -> Screen.Datos
                                                 else -> throw IllegalArgumentException("Unknown route")
                                             }
                                         )

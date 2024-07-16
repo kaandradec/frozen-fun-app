@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.kaandradec.frozenfun"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.engage.core)
     implementation(libs.protolite.well.known.types)
+    implementation(libs.androidx.compose.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -83,4 +84,11 @@ dependencies {
     implementation(libs.itextpdf)
 
     implementation("io.coil-kt:coil-compose:1.4.0")
+
+    // EMAIL
+//    implementation(libs.android.mail)
+//    implementation(libs.android.activation)
+
+    // Para targeta
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }

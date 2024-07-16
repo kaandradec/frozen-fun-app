@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.kaandradec.frozenfun.R
-import com.kaandradec.frozenfun.getStatusBarHeightDp
+import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel

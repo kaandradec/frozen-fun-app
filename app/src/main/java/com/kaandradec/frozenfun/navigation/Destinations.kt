@@ -24,4 +24,10 @@ sealed class Screen {
     @Serializable
     data class Factura(val cedula: String, val correo: String) : Screen()
 
+    @Serializable
+    data object AddPayment : Screen()
+
+    @Serializable
+    data object Datos : Screen()
+
 }
