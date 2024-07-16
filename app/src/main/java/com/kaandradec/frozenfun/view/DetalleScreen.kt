@@ -2,7 +2,6 @@ package com.kaandradec.frozenfun.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,8 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.kaandradec.frozenfun.R
-import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
+import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
 @Composable
@@ -136,6 +135,7 @@ fun DetalleScreen(
     var quantity by remember { mutableStateOf(1) }
     var selectedGrageas by remember { mutableStateOf(setOf<String>()) }
     var selectedExtras by remember { mutableStateOf(setOf<String>()) }
+    var selectedFlavors = remember { mutableStateListOf<String>() }
     var precioTotal by remember { mutableStateOf(cartItem.precio) }
 
     LazyColumn(
@@ -143,7 +143,7 @@ fun DetalleScreen(
             .fillMaxSize()
     ) {
 
-//        item { Spacer(modifier = Modifier.height(getStatusBarHeightDp())) } // Ajuste para la barra de estado
+
 
         item {
             Box(
@@ -264,17 +264,27 @@ fun DetalleScreen(
                     color = MaterialTheme.colorScheme.secondary
                 )
 
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    ),
-                    modifier = Modifier
-                        .size(width = 430.dp, height = 970.dp)
-                        .padding(16.dp),
-                ) {
-                    FlavorSelector(cartItem)
-                }
 
+                    ElevatedCard(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 6.dp
+                        ),
+                        modifier = Modifier
+                            .size(width = 410.dp, height = 1200.dp)
+                            .padding(8.dp),
+                    ) {
+                        FlavorSelector(
+                            cartItem= cartItem,
+                            selectedFlavors = selectedFlavors,
+                            onFlavorSelected = { flavor ->
+                                if (!selectedFlavors.contains(flavor)) {
+                                    selectedFlavors.add(flavor)
+                                } else {
+                                    selectedFlavors.remove(flavor)
+                                }
+                            }
+                        )
+                    }
 
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
@@ -361,12 +371,12 @@ fun DetalleScreen(
                             image = cartItem.image,
                             quantity = quantity,
                             sabores = cartItem.sabores,
-                            saboresSeleccionados = selectedGrageas.toMutableList()
-                                .apply {
+                            saboresSeleccionados = selectedFlavors.toMutableList(),
+                                /*.apply {
                                     clear()
                                     addAll(selectedGrageas)
                                     addAll(selectedExtras)
-                                },
+                                },*/
                             grageasSeleccionadas = selectedGrageas.toMutableList(),
                             extrasSeleccionados = selectedExtras.toMutableList(),
                             tipo = cartItem.tipo,
@@ -387,7 +397,7 @@ fun DetalleScreen(
                         modifier = Modifier.padding(8.dp)
                     )
                 }
-                Spacer(modifier = Modifier.height(150.dp))
+                Spacer(modifier = Modifier.height(80.dp))
             }
         }
 
@@ -395,32 +405,36 @@ fun DetalleScreen(
 }
 
 @Composable
-fun FlavorSelector(cartItem: CartItem) {
-    val flavors = listOf(
-        "Vainilla", "Maracuya", "Yogurt mora", "Chicle", "Galleta",
-        "Manjar", "Kinder", "Café", "Guanabana", "Fresa", "Naranjilla",
-        "Yogurt durazno", "Chocolate", "Tamarindo", "Mora", "Ron pasas"
-    )
-
-    val selectedFlavors = remember { mutableStateListOf<String>() }
-
-    Column {
+fun FlavorSelector(
+    selectedFlavors: MutableList<String>,
+    onFlavorSelected: (String) -> Unit,
+    cartItem: CartItem
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(horizontal = 16.dp)
+    ) {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Sabores:",
             style = TextStyle(
                 fontFamily = FontFamily.SansSerif, // Cambia a la familia de fuentes que desees
                 fontWeight = FontWeight.Bold, // Puedes ajustar el peso de la fuente
-                fontSize = 22.sp, // Ajusta el tamaño de la fuente según tus necesidades
+                fontSize = 18.sp, // Ajusta el tamaño de la fuente según tus necesidades
                 color = Color.Black // Puedes ajustar el color del texto
             ),
             modifier = Modifier.padding(start = 8.dp)
         )
-
-        flavors.forEach { flavor ->
+        listOf(
+            "Vainilla", "Maracuya", "Yogurt mora", "Chicle", "Galleta",
+            "Manjar", "Kinder", "Café", "Guanabana", "Fresa", "Naranjilla",
+            "Yogurt durazno", "Chocolate", "Tamarindo", "Mora", "Ron pasas"
+        ).forEach { flavor ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(vertical = 4.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
             ) {
                 Text(
                     text = flavor,
@@ -461,13 +475,13 @@ fun FlavorSelector(cartItem: CartItem) {
     }
 }
 
+
 @Composable
 fun GrageasSelector(
     selectedGrageas: Set<String>,
     onGrageaSelected: (String) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
         Spacer(modifier = Modifier.height(8.dp))

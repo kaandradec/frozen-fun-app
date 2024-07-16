@@ -1,12 +1,14 @@
 package com.kaandradec.frozenfun.view
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,6 +30,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,32 +50,48 @@ fun CarritoScreen(
     cartViewModel: CartViewModel
 ) {
     val cartItems = cartViewModel.cartItems
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
-    // Obtenemos la altura de la barra de estado
-    val statusBarHeightDp = getStatusBarHeightDp()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            CartHeader(onBackClick = { navController.popBackStack() }, cartViewModel = cartViewModel)
+            CartItemList(
+                items = cartItems,
+                onIncrement = { cartViewModel.addHelado(it) },
+                onDecrement = { cartViewModel.removeHelado(it) }
+            )
+        }
 
-    Column {
-//        Spacer(modifier = Modifier.height(statusBarHeightDp)) // Añadimos un espacio para que no se solape con la barra de estado
-        CartHeader(onBackClick = { navController.popBackStack() }, cartViewModel = cartViewModel)
-        CartItemList(
-            items = cartItems,
-            onIncrement = { cartViewModel.addHelado(it) },
-            onDecrement = { cartViewModel.removeHelado(it) }
-        )
         Spacer(modifier = Modifier.height(24.dp))
 
         val totalPrice = cartItems.sumOf { it.precio * it.quantity }
-        Text(text = "Total a Pagar: $$totalPrice", fontSize = 24.sp)
-        Button(onClick = {
-            navController.navigate(Screen.Factura("1234", "ejempl@gmail.com"))
-        }) {
-            Text(text = "Pagar helados")
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Total a Pagar: $$totalPrice", fontSize = 24.sp)
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    navController.navigate(Screen.Factura("1234", "ejempl@gmail.com"))
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Pagar helados")
+            }
         }
-
     }
 }
+
 
 
 @Composable
@@ -142,7 +163,33 @@ fun CartItemRow(item: CartItem, onIncrement: (CartItem) -> Unit, onDecrement: (C
             modifier = Modifier.weight(1f)
         ) {
             Text(text = item.nombre, fontWeight = FontWeight.Bold)
-//            Text(text = item.ingredients, style = MaterialTheme.typography.body2, color = Color.Gray)
+
+            Text(buildAnnotatedString {
+                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                append("Sabores: ")
+                Spacer(modifier = Modifier.height(8.dp))
+                pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
+                append(item.saboresSeleccionados.joinToString(", "))
+            }, style = TextStyle.Default)
+
+
+            Text(buildAnnotatedString {
+                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                append("Grageas: ")
+                Spacer(modifier = Modifier.height(8.dp))
+                pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
+                append(item.grageasSeleccionadas.joinToString(", "))
+            }, style = TextStyle.Default)
+
+            Text(buildAnnotatedString {
+                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                append("Extras: ")
+                Spacer(modifier = Modifier.height(8.dp))
+                pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
+                append(item.extrasSeleccionados.joinToString(", "))
+            }, style = TextStyle.Default)
+
+            Spacer(modifier = Modifier.height(8.dp))
             Text(text = "$${item.precio}", fontWeight = FontWeight.Bold)
         }
         Row(
@@ -170,10 +217,4 @@ fun CartItemList(
             CartItemRow(item = item, onIncrement = onIncrement, onDecrement = onDecrement)
         }
     }
-}
-
-@Composable
-@Preview
-fun test() {
-
 }

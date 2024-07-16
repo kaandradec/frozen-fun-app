@@ -1,6 +1,7 @@
 package com.kaandradec.frozenfun
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,6 +36,19 @@ import com.kaandradec.frozenfun.viewmodel.CartViewModel
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        Thread.sleep(2000)
+        val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                // Modo oscuro activado
+                setTheme(R.style.SplashTheme_Dark)
+            }
+            Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Modo oscuro desactivado o indefinido
+                setTheme(R.style.SplashTheme_Light)
+            }
+        }
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 

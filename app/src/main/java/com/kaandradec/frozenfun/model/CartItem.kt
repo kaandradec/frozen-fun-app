@@ -13,7 +13,7 @@ data class CartItem(
     ),
     val descripcion: String,
     val image: Int,
-    var saboresSeleccionados: List<String>, // Actualiza con los sabores seleccionados
+    var saboresSeleccionados: MutableList<String> = mutableListOf(), // Actualiza con los sabores seleccionados
     var grageasSeleccionadas: MutableList<String> = mutableListOf(),
     var extrasSeleccionados: MutableList<String> = mutableListOf(),
     val tipo: String
