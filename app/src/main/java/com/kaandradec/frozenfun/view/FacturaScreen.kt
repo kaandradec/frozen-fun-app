@@ -51,7 +51,6 @@ import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.view.composables.PdfViewer
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
-import com.shockwave.pdfium.PdfiumCore
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -68,7 +67,7 @@ fun FacturaScreen(
     apellido: String,
     telefono: String,
     email: String,
-    cedula: String,
+    cedula: String
 ) {
     val context = LocalContext.current
 
@@ -143,13 +142,14 @@ fun createInvoicePdf(
         document.add(Paragraph("Fecha: $date", font))
         document.add(Paragraph("RUC: 1791415132002", font))
         document.add(Paragraph("Número de Factura: $invoiceNumber", font))
+
         document.add(
             Paragraph(
                 "Nombres y Apellidos: ${nombre.uppercase()} ${apellido.uppercase()}",
                 font
             )
         )
-        document.add(Paragraph("Teléfono: $telefono", font))
+        document.add(Paragraph("Teléfono: $correo", font))
         document.add(Paragraph("RUC / CI: $cedula", font))
         document.add(Paragraph("Fecha Emisión: 10/07/2024", font))
         document.add(Paragraph("Comprobante que se modifica: FACTURA", font))

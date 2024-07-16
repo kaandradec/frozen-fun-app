@@ -46,7 +46,7 @@ fun DetalleScreen(
                     descripcion = "Cono simple con 1 sabor de helado",
                     sabores = mutableListOf(""),
                     saboresSeleccionados = mutableListOf(),
-                    image = R.drawable.images,
+                    image = R.drawable.cono,
                     grageasSeleccionadas = mutableListOf(),
                     extrasSeleccionados = mutableListOf(),
                     tipo = "Cono"

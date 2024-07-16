@@ -18,7 +18,6 @@ import com.kaandradec.frozenfun.view.SeleccionarScreen
 import com.kaandradec.frozenfun.view.TestScreen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
-
 @Composable
 fun SetupGraph(
     navController: NavHostController,

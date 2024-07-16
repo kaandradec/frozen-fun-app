@@ -75,10 +75,10 @@ fun SeleccionarScreen(
                     0,
                     descripcion = "Cono simple con 1 sabor de helado",
                     sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
-                    image = R.drawable.images,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
+                    saboresSeleccionados = mutableListOf("Chocolate"),
+                    image = R.drawable.cono,
+                    grageasSeleccionadas = mutableListOf("N/A"),
+                    extrasSeleccionados = mutableListOf("N/A"),
                     tipo = "Cono"
                 ),
                 CartItem(
@@ -89,10 +89,10 @@ fun SeleccionarScreen(
                     0,
                     descripcion = "  Cono doble de helado de vainilla y chocolate",
                     sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
+                    saboresSeleccionados = mutableListOf("Fresa y Ron Pasas"),
                     image = R.drawable.doble,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
+                    grageasSeleccionadas = mutableListOf("N/A"),
+                    extrasSeleccionados = mutableListOf("N/A"),
                     tipo = "Cono"
                 ),
                 CartItem(
@@ -103,10 +103,10 @@ fun SeleccionarScreen(
                     0,
                     descripcion = "     Tulipan de helado de vainilla y chocolate",
                     sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
+                    saboresSeleccionados = mutableListOf("Mora y Fresa"),
                     image = R.drawable.tuli_sabores,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
+                    grageasSeleccionadas = mutableListOf("Chispas"),
+                    extrasSeleccionados = mutableListOf("Crema, Barquillo y Fresas frescas"),
                     tipo = "Tulipan"
                 ),
                 CartItem(
@@ -116,11 +116,11 @@ fun SeleccionarScreen(
                     "banana_split",
                     0,
                     sabores = mutableListOf("Banana Slit con 3 sabores de helado"),
-                    saboresSeleccionados = mutableListOf(),
+                    saboresSeleccionados = mutableListOf("Fresa, Vainilla y Chocolate"),
                     descripcion = "",
                     image = R.drawable.banana,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
+                    grageasSeleccionadas = mutableListOf("N/A"),
+                    extrasSeleccionados = mutableListOf("Crema"),
                     tipo = "Banana Split"
                 ),
                 CartItem(
@@ -130,11 +130,11 @@ fun SeleccionarScreen(
                     "copa_doble",
                     0,
                     sabores = mutableListOf("Copa de helado con dos sabores de helado"),
-                    saboresSeleccionados = mutableListOf(),
+                    saboresSeleccionados = mutableListOf("Vainilla y Maracuya"),
                     descripcion = "",
                     image = R.drawable.copa_doble,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
+                    grageasSeleccionadas = mutableListOf("N/A"),
+                    extrasSeleccionados = mutableListOf("Crema y Queso"),
                     tipo = "Copa"
                 ),
                 CartItem(
@@ -144,11 +144,11 @@ fun SeleccionarScreen(
                     "tulipan_queso",
                     0,
                     sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
+                    saboresSeleccionados = mutableListOf("Maracuya, Chile y Mora"),
                     descripcion = "Tulipan de helado de vainilla y chocolate con queso y crema",
                     image = R.drawable.tuli_sabores_queso,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
+                    grageasSeleccionadas = mutableListOf("N/A"),
+                    extrasSeleccionados = mutableListOf("Barquillo, Queso y Crema"),
                     tipo = "Tulipan",
                 )
             )
@@ -189,8 +189,6 @@ fun SeleccionarScreen(
     fun toggleFiltro() {
         mostrarFiltro = !mostrarFiltro
     }
-
-    val statusBarHeight = getStatusBarHeightDp()
 
     Column(
         modifier = Modifier
@@ -297,7 +295,7 @@ fun HeladoItem(
         ) {
             Box(
                 modifier = Modifier
-                    .width(144.dp)
+                    .width(120.dp)
                     .fillMaxHeight()
                     .aspectRatio(1f)  // Esto asegura que la imagen sea un cuadrado
                     .clip(
@@ -463,29 +461,5 @@ fun PantallaHeader(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun FilterButton(
-    tipo: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    val backgroundColor =
-        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer
-    val contentColor =
-        if (isSelected) Color.White else MaterialTheme.colorScheme.primary
-
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor,
-            contentColor = contentColor
-        ),
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.padding(4.dp)
-    ) {
-        Text(text = tipo)
     }
 }
