@@ -79,7 +79,7 @@ fun FacturaScreen(
             .fillMaxSize()
             .padding(16.dp, 0.dp)
     ) {
-        Spacer(modifier = Modifier.height(getStatusBarHeightDp()))
+//        Spacer(modifier = Modifier.height(getStatusBarHeightDp()))
         FacturaHeader(
             onBackClick = { navController.popBackStack() },
             file = file,

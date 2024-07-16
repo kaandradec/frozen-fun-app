@@ -52,7 +52,7 @@ fun CarritoScreen(
     val statusBarHeightDp = getStatusBarHeightDp()
 
     Column {
-        Spacer(modifier = Modifier.height(statusBarHeightDp))
+//        Spacer(modifier = Modifier.height(statusBarHeightDp)) // Añadimos un espacio para que no se solape con la barra de estado
         CartHeader(onBackClick = { navController.popBackStack() }, cartViewModel = cartViewModel)
         CartItemList(
             items = cartItems,

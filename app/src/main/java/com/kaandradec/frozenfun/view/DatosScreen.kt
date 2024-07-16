@@ -90,7 +90,7 @@ fun DatosScreen() {
             LazyColumn(
                 modifier = Modifier.widthIn(max = 480.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(vertical = 24.dp)
+//                contentPadding = PaddingValues(vertical = 24.dp)
             ) {
                 item {
                     TextField(

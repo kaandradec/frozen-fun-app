@@ -133,7 +133,7 @@ fun DetalleScreen(
         return
     }
 
-    var quantity by remember { mutableStateOf(0) }
+    var quantity by remember { mutableStateOf(1) }
     var selectedGrageas by remember { mutableStateOf(setOf<String>()) }
     var selectedExtras by remember { mutableStateOf(setOf<String>()) }
     var precioTotal by remember { mutableStateOf(cartItem.precio) }
@@ -143,7 +143,7 @@ fun DetalleScreen(
             .fillMaxSize()
     ) {
 
-        item { Spacer(modifier = Modifier.height(getStatusBarHeightDp())) }
+//        item { Spacer(modifier = Modifier.height(getStatusBarHeightDp())) } // Ajuste para la barra de estado
 
         item {
             Box(
@@ -271,7 +271,7 @@ fun DetalleScreen(
                     modifier = Modifier
                         .size(width = 430.dp, height = 970.dp)
                         .padding(16.dp),
-                ){
+                ) {
                     FlavorSelector(cartItem)
                 }
 
@@ -283,17 +283,19 @@ fun DetalleScreen(
                     modifier = Modifier
                         .size(width = 430.dp, height = 260.dp)
                         .padding(16.dp),
-                ){GrageasSelector(
-                    selectedGrageas = selectedGrageas,
-                    onGrageaSelected = { gragea ->
-                        selectedGrageas = if (selectedGrageas.contains(gragea)) {
-                            selectedGrageas - gragea
-                        } else {
-                            selectedGrageas + gragea
+                ) {
+                    GrageasSelector(
+                        selectedGrageas = selectedGrageas,
+                        onGrageaSelected = { gragea ->
+                            selectedGrageas = if (selectedGrageas.contains(gragea)) {
+                                selectedGrageas - gragea
+                            } else {
+                                selectedGrageas + gragea
+                            }
+                            precioTotal =
+                                calcularPrecioTotal(cartItem, selectedGrageas, selectedExtras)
                         }
-                        precioTotal = calcularPrecioTotal(cartItem, selectedGrageas, selectedExtras)
-                    }
-                )
+                    )
                 }
 
                 ElevatedCard(
@@ -351,15 +353,27 @@ fun DetalleScreen(
             ) {
                 Button(
                     onClick = {
-                        cartViewModel.addItem(
-                            cartItem.copy(
-                                quantity = quantity,
-                                saboresSeleccionados = cartItem.saboresSeleccionados.toMutableList().apply {
+                        val nuevoHelado = CartItem(
+                            id = cartItem.id,
+                            nombre = cartItem.nombre,
+                            precio = precioTotal,
+                            descripcion = cartItem.descripcion,
+                            image = cartItem.image,
+                            quantity = quantity,
+                            sabores = cartItem.sabores,
+                            saboresSeleccionados = selectedGrageas.toMutableList()
+                                .apply {
                                     clear()
                                     addAll(selectedGrageas)
                                     addAll(selectedExtras)
-                                }
-                            )
+                                },
+                            grageasSeleccionadas = selectedGrageas.toMutableList(),
+                            extrasSeleccionados = selectedExtras.toMutableList(),
+                            tipo = cartItem.tipo,
+                            imagen = cartItem.imagen
+                        )
+                        cartViewModel.addItem(
+                            nuevoHelado
                         )
                     },
                     modifier = Modifier
@@ -410,7 +424,8 @@ fun FlavorSelector(cartItem: CartItem) {
             ) {
                 Text(
                     text = flavor,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
                         .padding(start = 16.dp)
                 )
 
@@ -525,7 +540,13 @@ fun ExtrasSelector(
                 color = Color.Black
             )
         )
-        listOf("Queso", "Crema", "Barquillos", "Chips de chocolate", "Frutas frescas").forEach { extra ->
+        listOf(
+            "Queso",
+            "Crema",
+            "Barquillos",
+            "Chips de chocolate",
+            "Frutas frescas"
+        ).forEach { extra ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

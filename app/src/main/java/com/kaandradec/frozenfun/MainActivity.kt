@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Settings
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
@@ -124,8 +127,12 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-                ) {
-                    SetupGraph(navController = navController, cartViewModel)
+                ) { innerPadding ->
+                    // Aquí configuras el grafo de navegación o el contenido principal
+                    // Asegúrate de aplicar el padding proporcionado por el Scaffold
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        SetupGraph(navController = navController, cartViewModel)
+                    }
                 }
             }
         }

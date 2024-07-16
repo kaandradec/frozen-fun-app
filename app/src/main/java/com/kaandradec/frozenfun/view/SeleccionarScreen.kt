@@ -198,7 +198,7 @@ fun SeleccionarScreen(
             .padding(16.dp, 0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(statusBarHeight))
+//        Spacer(modifier = Modifier.height(statusBarHeight)) // Espacio para la barra de estado
         PantallaHeader(
             navController = navController,
             cartViewModel = cartViewModel,
@@ -208,7 +208,8 @@ fun SeleccionarScreen(
             onToggleFiltro = { toggleFiltro() }
         )
 
-        val filteredList = if (selectedType == "Todos") listaMenu else listaMenu.filter { it.tipo == selectedType }
+        val filteredList =
+            if (selectedType == "Todos") listaMenu else listaMenu.filter { it.tipo == selectedType }
 
         LazyColumn(
             modifier = Modifier.fillMaxSize()
