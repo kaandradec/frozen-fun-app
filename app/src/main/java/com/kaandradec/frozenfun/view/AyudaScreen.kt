@@ -24,7 +24,6 @@ fun AyudaScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "AQUI VA LA GUIA DE USO     ")
-
+        Text(text = "AQUI VA LA GUIA DE USO")
     }
 }

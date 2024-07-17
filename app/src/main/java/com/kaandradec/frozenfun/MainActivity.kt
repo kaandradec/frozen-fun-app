@@ -135,7 +135,7 @@ class MainActivity : ComponentActivity() {
                                             when (index) {
                                                 0 -> Screen.Seleccionar
                                                 1 -> Screen.Ayuda
-                                                2 -> Screen.QR
+                                                2 -> Screen.Info
                                                 else -> throw IllegalArgumentException("Unknown route")
                                             }
                                         )

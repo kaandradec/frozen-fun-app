@@ -84,7 +84,6 @@ fun DetalleScreen(
     ) {
 
 
-
         item {
             Box(
                 modifier = Modifier
@@ -109,7 +108,9 @@ fun DetalleScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween, // Asegura que los íconos estén en extremos opuestos
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
                 ) {
                     // Ícono de regresar
                     IconButton(
@@ -118,7 +119,7 @@ fun DetalleScreen(
                         }
                     ) {
                         Icon(
-                            imageVector =  Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Regresar",
                             tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
@@ -141,8 +142,12 @@ fun DetalleScreen(
                             onClick = {
                                 if (cartViewModel.cartItems.isNotEmpty()) {
                                     navController.navigate(Screen.Carrito)
-                                }else {
-                                    Toast.makeText(navController.context, "No hay productos en el carrito", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(
+                                        navController.context,
+                                        "No hay productos en el carrito",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             },
                             modifier = Modifier
@@ -199,7 +204,7 @@ fun DetalleScreen(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
 
-                    IconButton(
+                    Button(
                         onClick = { if (quantity > 0) quantity-- },
                         modifier = Modifier
                             .size(48.dp)
@@ -212,7 +217,7 @@ fun DetalleScreen(
                             "-",
                             color = Color.White,
                             fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
@@ -243,26 +248,26 @@ fun DetalleScreen(
                 )
 
 
-                    ElevatedCard(
-                        elevation = CardDefaults.cardElevation(
-                            defaultElevation = 6.dp
-                        ),
-                        modifier = Modifier
-                            .size(width = 410.dp, height = 1200.dp)
-                            .padding(8.dp),
-                    ) {
-                        FlavorSelector(
-                            cartItem= cartItem,
-                            selectedFlavors = selectedFlavors,
-                            onFlavorSelected = { flavor ->
-                                if (!selectedFlavors.contains(flavor)) {
-                                    selectedFlavors.add(flavor)
-                                } else {
-                                    selectedFlavors.remove(flavor)
-                                }
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 6.dp
+                    ),
+                    modifier = Modifier
+                        .size(width = 410.dp, height = 1200.dp)
+                        .padding(8.dp),
+                ) {
+                    FlavorSelector(
+                        cartItem = cartItem,
+                        selectedFlavors = selectedFlavors,
+                        onFlavorSelected = { flavor ->
+                            if (!selectedFlavors.contains(flavor)) {
+                                selectedFlavors.add(flavor)
+                            } else {
+                                selectedFlavors.remove(flavor)
                             }
-                        )
-                    }
+                        }
+                    )
+                }
 
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
@@ -317,14 +322,15 @@ fun DetalleScreen(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center, // Centra el texto horizontalmente
-                    modifier = Modifier.fillMaxWidth() // Ocupa todo el ancho disponible
+                    modifier = Modifier.fillMaxWidth() // Ocupa t0do el ancho disponible
                 )
 
 
                 Text(
-                    text = cartItem?.descripcion ?: "Descripción no encontrada",
+                    text = cartItem.descripcion,
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
         }
@@ -350,11 +356,11 @@ fun DetalleScreen(
                             quantity = quantity,
                             sabores = cartItem.sabores,
                             saboresSeleccionados = selectedFlavors.toMutableList(),
-                                /*.apply {
-                                    clear()
-                                    addAll(selectedGrageas)
-                                    addAll(selectedExtras)
-                                },*/
+                            /*.apply {
+                                clear()
+                                addAll(selectedGrageas)
+                                addAll(selectedExtras)
+                            },*/
                             grageasSeleccionadas = selectedGrageas.toMutableList(),
                             extrasSeleccionados = selectedExtras.toMutableList(),
                             tipo = cartItem.tipo,
@@ -365,20 +371,20 @@ fun DetalleScreen(
                         )
 
                         // Mostrar mensaje de "Producto Añadido"
-                        Toast.makeText(navController.context, "Producto Añadido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            navController.context,
+                            "Producto Añadido",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp) // Altura del botón
                 ) {
                     Text(
                         text = "Añadir al carrito",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(8.dp)
                     )
                 }
-                Spacer(modifier = Modifier.height(80.dp))
+                Spacer(modifier = Modifier.height(64.dp))
             }
         }
 
