@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.kaandradec.frozenfun.navigation.Screen
-import com.kaandradec.frozenfun.util.onlyContainsLetters
+import com.kaandradec.frozenfun.util.onlyContainsLettersAndSingleSpace
 import com.kaandradec.frozenfun.util.onlyContainsNonNegativeNumbers
 import com.kaandradec.frozenfun.util.onlyContainsUpToFourNonNegativeNumbers
 import com.kaandradec.frozenfun.util.onlyContainsUpToThreeNonNegativeNumbers
@@ -86,7 +86,7 @@ fun AddPaymentScreen(
 //                        label = stringResource(id = R.string.card_holder_name),
                     label = "Nombre del propietario de la tarjeta",
                     onTextChanged = {
-                        if (it.text.onlyContainsLetters()) {
+                        if (it.text.onlyContainsLettersAndSingleSpace()) {
                             nameText = it
                         } else {
                             // Toast

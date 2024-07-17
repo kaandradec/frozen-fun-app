@@ -81,6 +81,7 @@ fun SeleccionarScreen(
 
     var itemCount by remember { mutableStateOf(0) }
     var selectedType by remember { mutableStateOf("Todos") }
+    var selectedTag by remember { mutableStateOf("Todos") }
 
     fun increaseQuantity(heladoId: Int) {
         listaMenu = listaMenu.map { helado ->
@@ -174,13 +175,64 @@ fun SeleccionarScreen(
                     }
                 }
 
-                CartItemsRow()
+                // SCROLL INFINITO HORIZONTAL
+                val infiniteList = remember { List(100) { tagsList[it % tagsList.size] } }
+
+                LazyRow(modifier = Modifier.fillMaxWidth()) {
+                    itemsIndexed(infiniteList) { index, tagItem ->
+                        Card(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .size(width = 140.dp, height = 150.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            onClick = { selectedTag = tagItem.tag }
+                        ) {
+                            Box {
+                                Image(
+                                    painter = painterResource(id = tagItem.imageResId),
+                                    contentDescription = tagItem.tag,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Crop
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomStart)
+                                        .fillMaxWidth()
+                                        .background(Color.Black.copy(alpha = 0.5f))
+                                ) {
+                                    Text(
+                                        text = tagItem.tag,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(4.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
 
             }
             Spacer(modifier = Modifier.height(8.dp))
 
             val filteredList =
                 if (selectedType == "Todos") listaMenu else listaMenu.filter { it.tipo == selectedType }
+
+            fun filtrarPorTag(): List<CartItem> {
+                if (selectedTag == "Todos")
+                    return filteredList
+                else if (selectedTag == "Nuevos")
+                    return filteredList.filter { it.esNuevo }
+                else if (selectedTag == "Personalizables")
+                    return filteredList.filter { it.esPersonalizable }
+                else if (selectedTag == "Otros")
+                    return filteredList.filter { !it.esPersonalizable }
+                else
+                    return filteredList
+            }
+
+            val filteredList2 = filtrarPorTag()
+
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -197,7 +249,7 @@ fun SeleccionarScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     // Usar `key` para mejorar el rendimiento en listas que cambian
-                    items(filteredList, key = { helado -> helado.id }) { helado ->
+                    items(filteredList2, key = { helado -> helado.id }) { helado ->
                         HeladoItem(
                             helado = helado,
                             onIncrease = { heladoId -> increaseQuantity(heladoId) },
@@ -469,43 +521,5 @@ fun FilterButton(
         modifier = Modifier.padding(4.dp)
     ) {
         Text(text = tipo)
-    }
-}
-
-@Composable
-fun CartItemsRow() {
-    // Simulando un desplazamiento infinito repitiendo los elementos de la lista
-    val infiniteList = remember { List(100) { tagsList[it % tagsList.size] } }
-
-    LazyRow(modifier = Modifier.fillMaxWidth()) {
-        itemsIndexed(infiniteList) { index, tagItem ->
-            Card(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .size(width = 140.dp, height = 150.dp),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Box {
-                    Image(
-                        painter = painterResource(id = tagItem.imageResId),
-                        contentDescription = tagItem.tag,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .fillMaxWidth()
-                            .background(Color.Black.copy(alpha = 0.5f))
-                    ) {
-                        Text(
-                            text = tagItem.tag,
-                            color = Color.White,
-                            modifier = Modifier.padding(4.dp)
-                        )
-                    }
-                }
-            }
-        }
     }
 }

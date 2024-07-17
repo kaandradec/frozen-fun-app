@@ -46,6 +46,6 @@ sealed class Screen {
     data object Datos : Screen()
 
     @Serializable
-    data object QR : Screen()
+    data class QR(val informacion: String, val porCobrar: Boolean) : Screen()
 
 }

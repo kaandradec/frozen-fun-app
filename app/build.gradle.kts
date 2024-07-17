@@ -91,4 +91,9 @@ dependencies {
 
     // Para targeta
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    // QR
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.2.0")
+
 }

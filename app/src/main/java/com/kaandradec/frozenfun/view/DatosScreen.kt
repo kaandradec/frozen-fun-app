@@ -53,7 +53,7 @@ import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.util.isValidEcuadorMobilePhoneNumber
 import com.kaandradec.frozenfun.util.isValidEcuadorianCedula
 import com.kaandradec.frozenfun.util.isValidEmail
-import com.kaandradec.frozenfun.util.onlyContainsLetters
+import com.kaandradec.frozenfun.util.onlyContainsLettersAndSingleSpace
 
 @Composable
 fun DatosScreen(
@@ -114,285 +114,286 @@ Aceptación de Términos
         DatosHeader(
             onBackClick = { navController.popBackStack() }
         )
-        if (errorMessage.isNotEmpty()) {
-            Text(
-                text = errorMessage,
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(16.dp, 0.dp)
-            )
-        }
-        val focusManager = LocalFocusManager.current
-        LazyColumn(
-            modifier = Modifier
-                .widthIn(max = 480.dp)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-//                contentPadding = PaddingValues(vertical = 24.dp)
-        ) {
-            item {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    label = { Text("Nombre") },
-                    value = nombreText,
-                    onValueChange = {
-                        if (it.onlyContainsLetters()) {
-                            nombreText = it
-                        } else {
-                            // Toast
-                            Toast.makeText(
-                                context,
-                                "Solo se permiten letras",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    },
-                    singleLine = true,
-                    trailingIcon = {
-                        AnimatedVisibility(
-                            visible = nombreText.isNotBlank(),
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            IconButton(onClick = { nombreText = "" }) {
-                                Icon(Icons.Outlined.Cancel, "Clear")
-                            }
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                        capitalization = KeyboardCapitalization.Words
-                    ),
-                    keyboardActions = KeyboardActions {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    })
-
-            }
-            item {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    label = { Text("Apellido") },
-                    value = apellidoText,
-                    onValueChange = {
-                        if (it.onlyContainsLetters()) {
-                            apellidoText = it
-                        } else {
-                            // Toast
-                            Toast.makeText(
-                                context,
-                                "Solo se permiten letras",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    },
-                    singleLine = true,
-                    trailingIcon = {
-                        AnimatedVisibility(
-                            visible = apellidoText.isNotBlank(),
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            IconButton(onClick = { apellidoText = "" }) {
-                                Icon(Icons.Outlined.Cancel, "Clear")
-                            }
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                        capitalization = KeyboardCapitalization.Words
-                    ),
-                    keyboardActions = KeyboardActions {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    })
-            }
-            item { Spacer(Modifier.height(4.dp)) }
-            item {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    label = { Text("Teléfono") },
-                    value = telefonoNumero,
-                    onValueChange = {
-                        if (it.isDigitsOnly()) {
-                            telefonoNumero = it
-                        } else {
-                            // Toast
-                            Toast.makeText(
-                                context,
-                                "Número de teléfono inválido, debe empezar con 09 y tener 10 dígitos",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    },
-                    trailingIcon = {
-                        AnimatedVisibility(
-                            visible = telefonoNumero.isNotBlank(),
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            IconButton(onClick = { telefonoNumero = "" }) {
-                                Icon(Icons.Outlined.Cancel, "Clear")
-                            }
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Phone,
-                        imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    },
-                    singleLine = true,
-                )
-            }
-            item { Spacer(Modifier.height(4.dp)) }
-            item {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    label = { Text("Email") },
-                    value = emailText,
-                    onValueChange = {
-                        emailText = it
-                    },
-                    trailingIcon = {
-                        AnimatedVisibility(
-                            visible = emailText.isNotBlank(),
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            IconButton(onClick = { emailText = "" }) {
-                                Icon(Icons.Outlined.Cancel, "Clear")
-                            }
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions {
-                        focusManager.clearFocus()
-                    },
-                    singleLine = true,
-                )
-            }
-            item { Spacer(Modifier.height(4.dp)) }
-            item {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    value = cedulaNumero,
-                    onValueChange = {
-                        if (it.isDigitsOnly()) {
-                            cedulaNumero = it
-                        } else {
-                            // Toast
-                            Toast.makeText(
-                                context,
-                                "Cédula inválida",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    },
-                    label = { Text("Cédula") },
-                    trailingIcon = {
-                        AnimatedVisibility(
-                            visible = cedulaNumero.isNotBlank(),
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            IconButton(onClick = { cedulaNumero = "" }) {
-                                Icon(Icons.Outlined.Cancel, "Clear")
-                            }
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    },
-                )
-            }
-            item {
+        Column(modifier = Modifier.weight(1f)) {
+            if (errorMessage.isNotEmpty()) {
                 Text(
-                    text = "Método de pago",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 24.dp,
-                        bottom = 8.dp
-                    )
+                    text = errorMessage,
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(16.dp, 0.dp)
                 )
             }
+            Text(
+                text = "Método de pago",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 24.dp,
+                    bottom = 8.dp
+                )
+            )
 
-            item {
-                val options = listOf("Efectivo", "Tarjeta")
-                Column {
-                    options.forEachIndexed { i, option ->
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            val options = listOf("Efectivo (Consumidor Final)", "Tarjeta")
+            Column {
+                options.forEachIndexed { i, option ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                        modifier = Modifier
+                            .clickable { metodoPago = i }
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        RadioButton(selected = metodoPago == i, onClick = null)
+                        Text(text = option)
+                    }
+                }
+            }
+
+            val focusManager = LocalFocusManager.current
+
+            if (metodoPago == 1) { // Datos de tarjeta
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .widthIn(max = 480.dp)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+//                contentPadding = PaddingValues(vertical = 24.dp)
+                ) {
+                    item {
+                        TextField(
                             modifier = Modifier
-                                .clickable { metodoPago = i }
                                 .fillMaxWidth()
-                                .padding(16.dp)
+                                .padding(horizontal = 16.dp),
+                            label = { Text("Nombre") },
+                            value = nombreText,
+                            onValueChange = {
+                                if (it.onlyContainsLettersAndSingleSpace()) {
+                                    nombreText = it
+                                } else {
+                                    // Toast
+                                    Toast.makeText(
+                                        context,
+                                        "Solo se permiten letras",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            singleLine = true,
+                            trailingIcon = {
+                                AnimatedVisibility(
+                                    visible = nombreText.isNotBlank(),
+                                    enter = fadeIn(),
+                                    exit = fadeOut()
+                                ) {
+                                    IconButton(onClick = { nombreText = "" }) {
+                                        Icon(Icons.Outlined.Cancel, "Clear")
+                                    }
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Next,
+                                capitalization = KeyboardCapitalization.Words
+                            ),
+                            keyboardActions = KeyboardActions {
+                                focusManager.moveFocus(FocusDirection.Next)
+                            })
+
+                    }
+                    item {
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            label = { Text("Apellido") },
+                            value = apellidoText,
+                            onValueChange = {
+                                if (it.onlyContainsLettersAndSingleSpace()) {
+                                    apellidoText = it
+                                } else {
+                                    // Toast
+                                    Toast.makeText(
+                                        context,
+                                        "Solo se permiten letras",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            singleLine = true,
+                            trailingIcon = {
+                                AnimatedVisibility(
+                                    visible = apellidoText.isNotBlank(),
+                                    enter = fadeIn(),
+                                    exit = fadeOut()
+                                ) {
+                                    IconButton(onClick = { apellidoText = "" }) {
+                                        Icon(Icons.Outlined.Cancel, "Clear")
+                                    }
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Next,
+                                capitalization = KeyboardCapitalization.Words
+                            ),
+                            keyboardActions = KeyboardActions {
+                                focusManager.moveFocus(FocusDirection.Next)
+                            })
+                    }
+                    item { Spacer(Modifier.height(4.dp)) }
+                    item {
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            label = { Text("Teléfono") },
+                            value = telefonoNumero,
+                            onValueChange = {
+                                if (it.isDigitsOnly()) {
+                                    telefonoNumero = it
+                                } else {
+                                    // Toast
+                                    Toast.makeText(
+                                        context,
+                                        "Número de teléfono inválido, debe empezar con 09 y tener 10 dígitos",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            trailingIcon = {
+                                AnimatedVisibility(
+                                    visible = telefonoNumero.isNotBlank(),
+                                    enter = fadeIn(),
+                                    exit = fadeOut()
+                                ) {
+                                    IconButton(onClick = { telefonoNumero = "" }) {
+                                        Icon(Icons.Outlined.Cancel, "Clear")
+                                    }
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Phone,
+                                imeAction = ImeAction.Next
+                            ),
+                            keyboardActions = KeyboardActions {
+                                focusManager.moveFocus(FocusDirection.Next)
+                            },
+                            singleLine = true,
+                        )
+                    }
+                    item { Spacer(Modifier.height(4.dp)) }
+                    item {
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            label = { Text("Email") },
+                            value = emailText,
+                            onValueChange = {
+                                emailText = it
+                            },
+                            trailingIcon = {
+                                AnimatedVisibility(
+                                    visible = emailText.isNotBlank(),
+                                    enter = fadeIn(),
+                                    exit = fadeOut()
+                                ) {
+                                    IconButton(onClick = { emailText = "" }) {
+                                        Icon(Icons.Outlined.Cancel, "Clear")
+                                    }
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Email,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions {
+                                focusManager.clearFocus()
+                            },
+                            singleLine = true,
+                        )
+                    }
+                    item { Spacer(Modifier.height(4.dp)) }
+                    item {
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            value = cedulaNumero,
+                            onValueChange = {
+                                if (it.isDigitsOnly()) {
+                                    cedulaNumero = it
+                                } else {
+                                    // Toast
+                                    Toast.makeText(
+                                        context,
+                                        "Cédula inválida",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            label = { Text("Cédula") },
+                            trailingIcon = {
+                                AnimatedVisibility(
+                                    visible = cedulaNumero.isNotBlank(),
+                                    enter = fadeIn(),
+                                    exit = fadeOut()
+                                ) {
+                                    IconButton(onClick = { cedulaNumero = "" }) {
+                                        Icon(Icons.Outlined.Cancel, "Clear")
+                                    }
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            ),
+                            keyboardActions = KeyboardActions {
+                                focusManager.moveFocus(FocusDirection.Next)
+                            },
+                        )
+                    }
+                    item {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            shape = RoundedCornerShape(8.dp),
                         ) {
-                            RadioButton(selected = metodoPago == i, onClick = null)
-                            Text(text = option)
+                            Column(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                Text(
+                                    text = "Política de Privacidad",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(bottom = 8.dp)
+                                )
+                                Text(
+                                    text = privacyPolicyText,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                         }
                     }
                 }
             }
-            item {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    shape = RoundedCornerShape(8.dp),
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Política de Privacidad",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-                        Text(
-                            text = privacyPolicyText,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .clickable { termsAccepted = !termsAccepted }
+            ) {
+                Checkbox(
+                    checked = termsAccepted,
+                    onCheckedChange = { termsAccepted = it }
+                )
+                Text(text = "Acepto los términos y condiciones")
             }
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .clickable { termsAccepted = !termsAccepted }
-                ) {
-                    Checkbox(
-                        checked = termsAccepted,
-                        onCheckedChange = { termsAccepted = it }
-                    )
-                    Text(text = "Acepto los términos y condiciones")
-                }
-            }
-            item{
             AnimatedVisibility(
                 visible = termsAccepted,
                 enter = fadeIn(),
@@ -419,55 +420,68 @@ Aceptación de Términos
                         )
                     }
                 }
-             }
             }
-            item {
-                Button(
-                    onClick = {
-                        val error = validarDatos(
-                            nombreText,
-                            apellidoText,
-                            emailText,
-                            telefonoNumero,
-                            cedulaNumero,
-                            metodoPago,
-                            termsAccepted
-                        )
-                        errorMessage = error
-
-                        if (error.isEmpty() && termsAccepted) {
-                            if (metodoPago == 0) {
-                                // Efectivo
-                                navController.navigate(Screen.Comprobante)
-                            } else {
-                                // Tarjeta
-                                navController.navigate(
-                                    Screen.AddPayment(
-                                        nombreText,
-                                        apellidoText,
-                                        emailText,
-                                        telefonoNumero,
-                                        cedulaNumero
-                                    )
-                                )
-                            }
-                        } else {
-                            if (!termsAccepted) {
-                                Toast.makeText(
-                                    context,
-                                    "Debe aceptar los términos y condiciones para continuar",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(64.dp, 16.dp)
-                ) {
-                    Text("Guardar", fontSize = 18.sp)
+        }
+        Button(
+            onClick = {
+                if (metodoPago == 0) { // Consumidor final
+                    if (termsAccepted) {
+                        navController.navigate(Screen.Comprobante)
+                        return@Button
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Debe aceptar los términos y condiciones para continuar",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@Button
+                    }
                 }
-            }
+
+                val error = validarDatos(
+                    nombreText,
+                    apellidoText,
+                    emailText,
+                    telefonoNumero,
+                    cedulaNumero,
+                    metodoPago,
+                    termsAccepted
+                )
+                errorMessage = error
+
+                if (!error.isEmpty()) {
+                    Toast.makeText(
+                        context,
+                        error,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@Button
+                }
+
+                if (!termsAccepted) {
+                    Toast.makeText(
+                        context,
+                        "Debe aceptar los términos y condiciones para continuar",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@Button
+                }
+                // Tarjeta
+                navController.navigate(
+                    Screen.AddPayment(
+                        nombreText,
+                        apellidoText,
+                        emailText,
+                        telefonoNumero,
+                        cedulaNumero
+                    )
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(64.dp, 16.dp)
+        ) {
+            Text("Guardar", fontSize = 18.sp)
         }
     }
 }

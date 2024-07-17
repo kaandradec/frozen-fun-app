@@ -82,8 +82,14 @@ fun SetupGraph(
                 navController,
             )
         }
-        composable<Screen.QR> {
-            QRScreen(navController)
+        composable<Screen.QR> { backStackEntry ->
+            val profile = backStackEntry.toRoute<Screen.QR>()
+            QRScreen(
+                navController,
+                cartViewModel,
+                informacion = profile.informacion,
+                porCobrar = profile.porCobrar
+            )
         }
 
 

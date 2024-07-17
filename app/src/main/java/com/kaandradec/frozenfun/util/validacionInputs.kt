@@ -1,8 +1,8 @@
 package com.kaandradec.frozenfun.util
 
-fun String.onlyContainsLetters(): Boolean {
-    // Esta expresión regular coincide con cualquier cadena que solo contenga letras (mayúsculas o minúsculas)
-    val regex = Regex("^[a-zA-Z]*$")
+fun String.onlyContainsLettersAndSingleSpace(): Boolean {
+    // Esta expresión regular coincide con cadenas que contienen letras y un único espacio, permitiendo nombres y apellidos
+    val regex = Regex("^[a-zA-Z]+\\s?[a-zA-Z]*$")
     return this.matches(regex)
 }
 

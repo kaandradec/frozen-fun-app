@@ -44,6 +44,7 @@ import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.kaandradec.frozenfun.R
 import com.kaandradec.frozenfun.model.CartItem
+import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.view.composables.PdfViewer
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 import java.io.ByteArrayOutputStream
@@ -68,7 +69,9 @@ fun FacturaScreen(
 
     val lista = cartViewModel.cartItems
 
-    createInvoicePdf(context, lista, nombre, apellido, telefono, email, cedula)
+    val totalPorPagar = createInvoicePdf(context, lista, nombre, apellido, telefono, email, cedula)
+
+    val infoCompra = "PEDIDO PAGADO: $totalPorPagar"
 
     val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "factura.pdf")
 
@@ -83,21 +86,32 @@ fun FacturaScreen(
             file = file,
             context = context
         )
-        Text(
-            text = "GRACIAS POR SU COMPRA",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "GRACIAS POR SU COMPRA",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        PdfViewer(pdfFile = file)
+            PdfViewer(pdfFile = file)
+        }
         Button(
-            onClick = { moveFileToDownloads(context, file) },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            onClick = {
+                navController.navigate(
+                    Screen.QR(
+                        informacion = infoCompra,
+                        porCobrar = false
+                    )
+                )
+            },
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(0.dp, 16.dp)
         ) {
-            Text(text = "Descargar archivo")
+            Text(text = "QR de pedido")
         }
     }
 }
@@ -112,7 +126,7 @@ fun createInvoicePdf(
     telefono: String,
     email: String,
     cedula: String
-) {
+): Double {
     try {
         val document = Document()
         val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "factura.pdf")
@@ -202,9 +216,12 @@ fun createInvoicePdf(
         )
 
         document.close()
+
+        return total
     } catch (e: Exception) {
         e.printStackTrace()
     }
+    return 0.0
 }
 
 @SuppressLint("DefaultLocale")

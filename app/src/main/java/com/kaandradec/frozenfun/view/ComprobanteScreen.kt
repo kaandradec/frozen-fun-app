@@ -1,5 +1,6 @@
 package com.kaandradec.frozenfun.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -43,6 +44,7 @@ import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.kaandradec.frozenfun.R
 import com.kaandradec.frozenfun.model.CartItem
+import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.view.composables.PdfViewer
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 import java.io.ByteArrayOutputStream
@@ -61,7 +63,8 @@ fun ComprobanteScreen(
 
     val lista = cartViewModel.cartItems
 
-    createComprobanteConsumidorFinalPdf(context, lista)
+    val totalPorPagar = createComprobanteConsumidorFinalPdf(context, lista)
+    val infoCompra = "VALOR A COBRAR: $totalPorPagar"
 
     val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "comprobante.pdf")
 
@@ -76,33 +79,45 @@ fun ComprobanteScreen(
             file = file,
             context = context
         )
-        Text(
-            text = "GRACIAS POR SU COMPRA",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-        Text(
-            text = "Realice el pago en la ventanilla de caja",
-            fontSize = 16.sp,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = MaterialTheme.colorScheme.secondary
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "GRACIAS POR SU COMPRA",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = "Realice el pago en la ventanilla de caja",
+                fontSize = 16.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                color = MaterialTheme.colorScheme.secondary
+            )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        PdfViewer(pdfFile = file)
+            PdfViewer(pdfFile = file)
+        }
         Button(
-            onClick = { moveComprobanteFileToDownloads(context, file) },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            onClick = {
+                navController.navigate(
+                    Screen.QR(
+                        informacion = infoCompra,
+                        porCobrar = true
+                    )
+                )
+            },
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(0.dp, 16.dp)
         ) {
-            Text(text = "Descargar archivo")
+            Text(text = "QR de pedido")
         }
     }
 }
 
 
-fun createComprobanteConsumidorFinalPdf(context: Context, items: List<CartItem>) {
+@SuppressLint("DefaultLocale")
+fun createComprobanteConsumidorFinalPdf(context: Context, items: List<CartItem>): Double {
     val document = Document()
     try {
         val file = File(
@@ -170,9 +185,11 @@ fun createComprobanteConsumidorFinalPdf(context: Context, items: List<CartItem>)
         document.add(Paragraph("Total: ${String.format("%.2f", total)}", font))
 
         document.close()
+        return total
     } catch (e: Exception) {
         e.printStackTrace()
     }
+    return 0.0
 }
 
 

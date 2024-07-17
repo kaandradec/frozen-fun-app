@@ -13,6 +13,7 @@ composeBom = "2024.04.01"
 # NAVIGATION
 navigationCompose = "2.8.0-beta01"
 pdfiumAndroid = "1.9.0"
+qrgenearatorVersion = "1.0.4"
 ui = "1.7.0-beta01"
 kotlinxSerializationJson = "1.6.0"
 # ICONS
@@ -42,6 +43,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 # NAVIGATION
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 pdfium-android = { module = "com.github.barteksc:pdfium-android", version.ref = "pdfiumAndroid" }
+qrgenearator = { module = "androidmads.library.qrgenearator:QRGenearator", version.ref = "qrgenearatorVersion" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 # ICONS
