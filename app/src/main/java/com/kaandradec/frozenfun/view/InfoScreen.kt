@@ -140,7 +140,7 @@ fun InfoScreen() {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.premio),
-                    contentDescription = "Logo de la empresa",
+                    contentDescription = "Premio",
                     modifier = Modifier.size(200.dp)
                 )
             }
