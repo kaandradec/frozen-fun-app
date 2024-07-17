@@ -3,9 +3,11 @@ package com.kaandradec.frozenfun.view
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -24,12 +26,14 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -248,13 +252,11 @@ fun DetalleScreen(
                 )
 
 
-                ElevatedCard(
+                OutlinedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp
                     ),
-                    modifier = Modifier
-                        .size(width = 410.dp, height = 1200.dp)
-                        .padding(8.dp),
+                    modifier = Modifier.height(IntrinsicSize.Max)
                 ) {
                     FlavorSelector(
                         cartItem = cartItem,
@@ -269,13 +271,13 @@ fun DetalleScreen(
                     )
                 }
 
-                ElevatedCard(
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp
                     ),
-                    modifier = Modifier
-                        .size(width = 430.dp, height = 260.dp)
-                        .padding(16.dp),
+                    modifier = Modifier.height(IntrinsicSize.Max)
                 ) {
                     GrageasSelector(
                         selectedGrageas = selectedGrageas,
@@ -291,13 +293,12 @@ fun DetalleScreen(
                     )
                 }
 
-                ElevatedCard(
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp
                     ),
-                    modifier = Modifier
-                        .size(width = 430.dp, height = 400.dp)
-                        .padding(16.dp),
+                    modifier = Modifier.height(IntrinsicSize.Max)
 
                     ) {
                     ExtrasSelector(
@@ -397,127 +398,140 @@ fun FlavorSelector(
     onFlavorSelected: (String) -> Unit,
     cartItem: CartItem
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Sabores:",
             style = TextStyle(
-                fontFamily = FontFamily.SansSerif, // Cambia a la familia de fuentes que desees
-                fontWeight = FontWeight.Bold, // Puedes ajustar el peso de la fuente
-                fontSize = 18.sp, // Ajusta el tamaño de la fuente según tus necesidades
-                color = Color.Black // Puedes ajustar el color del texto
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.Black
             ),
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = Modifier
+                .padding(start = 5.dp, top = 8.dp)
+                .clickable { expanded = !expanded }
         )
-        listOf(
-            "Vainilla", "Maracuya", "Yogurt mora", "Chicle", "Galleta",
-            "Manjar", "Kinder", "Café", "Guanabana", "Fresa", "Naranjilla",
-            "Yogurt durazno", "Chocolate", "Tamarindo", "Mora", "Ron pasas"
-        ).forEach { flavor ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            ) {
-                Text(
-                    text = flavor,
+
+        if (expanded) {
+            listOf(
+                "Vainilla", "Maracuya", "Yogurt mora", "Chicle", "Galleta",
+                "Manjar", "Kinder", "Café", "Guanabana", "Fresa", "Naranjilla",
+                "Yogurt durazno", "Chocolate", "Tamarindo", "Mora", "Ron pasas"
+            ).forEach { flavor ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 16.dp)
-                )
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = flavor,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 16.dp)
+                    )
 
-                Checkbox(
-                    checked = selectedFlavors.contains(flavor),
-                    onCheckedChange = { isChecked ->
-                        if (isChecked) {
-                            when (cartItem.nombre) {
-                                "Cono simple" -> {
-                                    selectedFlavors.clear()
-                                    selectedFlavors.add(flavor)
-                                }
-
-                                "Cono doble", "Tulipan 2 sabores", "Helado copa doble" -> {
-                                    if (selectedFlavors.size < 2) {
+                    Checkbox(
+                        checked = selectedFlavors.contains(flavor),
+                        onCheckedChange = { isChecked ->
+                            if (isChecked) {
+                                when (cartItem.nombre) {
+                                    "Cono simple" -> {
+                                        selectedFlavors.clear()
                                         selectedFlavors.add(flavor)
                                     }
-                                }
-
-                                "Banana Split", "Tulipan extra" -> {
-                                    if (selectedFlavors.size < 3) {
-                                        selectedFlavors.add(flavor)
+                                    "Cono doble", "Tulipan 2 sabores", "Helado copa doble" -> {
+                                        if (selectedFlavors.size < 2) {
+                                            selectedFlavors.add(flavor)
+                                        }
+                                    }
+                                    "Banana Split", "Tulipan extra" -> {
+                                        if (selectedFlavors.size < 3) {
+                                            selectedFlavors.add(flavor)
+                                        }
                                     }
                                 }
+                            } else {
+                                selectedFlavors.remove(flavor)
                             }
-                        } else {
-                            selectedFlavors.remove(flavor)
                         }
-                    }
-                )
+                    )
+                }
             }
+        } else {
+            Spacer(modifier = Modifier.height(0.dp)) // Agrega un espacio de altura cero cuando está colapsado
         }
     }
 }
-
 
 @Composable
 fun GrageasSelector(
     selectedGrageas: Set<String>,
     onGrageaSelected: (String) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(horizontal = 20.dp)
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Grageas:",
             style = TextStyle(
-                fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = Color.Black
-            )
+            ),
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .clickable { expanded = !expanded }
         )
-        listOf("Chocolate", "Chispas", "Maní").forEach { gragea ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            ) {
-                Text(
-                    text = gragea,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = "$${if (gragea == "Chocolate") "0.25" else "0.30"}",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Checkbox(
-                    checked = selectedGrageas.contains(gragea),
-                    onCheckedChange = { isChecked ->
-                        if (isChecked) {
-                            onGrageaSelected(gragea)
-                        } else {
-                            onGrageaSelected(gragea)
-                        }
-                    },
-                    modifier = Modifier.padding(end = 8.dp)
-                )
+
+        if (expanded) {
+            listOf("Chocolate", "Chispas", "Maní").forEach { gragea ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = gragea,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = "$${if (gragea == "Chocolate") "0.25" else "0.30"}",
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Checkbox(
+                        checked = selectedGrageas.contains(gragea),
+                        onCheckedChange = { isChecked ->
+                            if (isChecked) {
+                                onGrageaSelected(gragea)
+                            } else {
+                                onGrageaSelected(gragea)
+                            }
+                        },
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                }
             }
+        } else {
+            Spacer(modifier = Modifier.height(0.dp)) // Agrega un espacio de altura cero cuando está colapsado
         }
     }
 }
@@ -527,71 +541,79 @@ fun ExtrasSelector(
     selectedExtras: Set<String>,
     onExtraSelected: (String) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier.padding(horizontal = 30.dp)
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Extras:",
             style = TextStyle(
-                fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = Color.Black
-            )
+            ),
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .clickable { expanded = !expanded }
         )
-        listOf(
-            "Queso",
-            "Crema",
-            "Barquillos",
-            "Chips de chocolate",
-            "Frutas frescas"
-        ).forEach { extra ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            ) {
-                Text(
-                    text = extra,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-                val price = when (extra) {
-                    "Queso" -> "$0.60"
-                    "Crema" -> "$0.50"
-                    "Barquillos" -> "$0.40"
-                    "Chips de chocolate" -> "$0.35"
-                    "Frutas frescas" -> "$0.30"
-                    else -> ""
+
+        if (expanded) {
+            listOf(
+                "Queso",
+                "Crema",
+                "Barquillos",
+                "Chips de chocolate",
+                "Frutas frescas"
+            ).forEach { extra ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = extra,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                        modifier = Modifier.weight(1f)
+                    )
+                    val price = when (extra) {
+                        "Queso" -> "$0.60"
+                        "Crema" -> "$0.50"
+                        "Barquillos" -> "$0.40"
+                        "Chips de chocolate" -> "$0.35"
+                        "Frutas frescas" -> "$0.30"
+                        else -> ""
+                    }
+                    Text(
+                        text = price,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Checkbox(
+                        checked = selectedExtras.contains(extra),
+                        onCheckedChange = { isChecked ->
+                            if (isChecked) {
+                                onExtraSelected(extra)
+                            } else {
+                                onExtraSelected(extra)
+                            }
+                        },
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
                 }
-                Text(
-                    text = price,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Checkbox(
-                    checked = selectedExtras.contains(extra),
-                    onCheckedChange = { isChecked ->
-                        if (isChecked) {
-                            onExtraSelected(extra)
-                        } else {
-                            onExtraSelected(extra)
-                        }
-                    },
-                    modifier = Modifier.padding(end = 8.dp)
-                )
             }
+        } else {
+            Spacer(modifier = Modifier.height(0.dp)) // Agrega un espacio de altura cero cuando está colapsado
         }
     }
 }
