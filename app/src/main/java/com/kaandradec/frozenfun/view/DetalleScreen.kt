@@ -1,5 +1,6 @@
 package com.kaandradec.frozenfun.view
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -49,6 +54,7 @@ import androidx.navigation.NavHostController
 import com.kaandradec.frozenfun.R
 import com.kaandradec.frozenfun.data.datos
 import com.kaandradec.frozenfun.model.CartItem
+import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
 @Composable
@@ -99,24 +105,62 @@ fun DetalleScreen(
                     contentScale = ContentScale.Crop,  // Esto asegura que la imagen haga "fill"
                     modifier = Modifier.fillMaxSize()
                 )
-                // Icono para regresar
-                IconButton(
-                    onClick = { navController.popBackStack() },
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .zIndex(1f)  // Esto coloca el icono sobre la imagen
-                        .align(Alignment.TopStart)  // Esto coloca el icono en la esquina superior izquierda
-                        .background(
-                            MaterialTheme.colorScheme.primaryContainer,
-                            shape = RoundedCornerShape(16.dp)
-                        )
+                // Iconos de regresar y del carrito con BadgedBox
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween, // Asegura que los íconos estén en extremos opuestos
+                    modifier = Modifier.fillMaxWidth().padding(16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Regresar",
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                    // Ícono de regresar
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    ) {
+                        Icon(
+                            imageVector =  Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Regresar",
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+
+                    // Ícono del carrito con BadgedBox
+                    BadgedBox(
+                        badge = {
+                            if (cartViewModel.cartItems.isNotEmpty()) {
+                                Badge(
+                                    containerColor = Color.Red,
+                                    contentColor = Color.White
+                                ) {
+                                    Text("${cartViewModel.cartItems.sumBy { it.quantity }}")
+                                }
+                            }
+                        }
+                    ) {
+                        IconButton(
+                            onClick = {
+                                if (cartViewModel.cartItems.isNotEmpty()) {
+                                    navController.navigate(Screen.Carrito)
+                                }else {
+                                    Toast.makeText(navController.context, "No hay productos en el carrito", Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(
+                                    MaterialTheme.colorScheme.primaryContainer,
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.ShoppingCart,
+                                contentDescription = "Ir al carrito",
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
                 }
+
                 // Column que contiene los botones de incrementar y decrementar la cantidad
                 Column(
                     modifier = Modifier
@@ -319,6 +363,9 @@ fun DetalleScreen(
                         cartViewModel.addItem(
                             nuevoHelado
                         )
+
+                        // Mostrar mensaje de "Producto Añadido"
+                        Toast.makeText(navController.context, "Producto Añadido", Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier
                         .fillMaxWidth()
