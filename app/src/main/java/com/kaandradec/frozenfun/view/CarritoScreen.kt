@@ -1,6 +1,7 @@
 package com.kaandradec.frozenfun.view
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +41,7 @@ import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
-@SuppressLint("InternalInsetResource", "DiscouragedApi")
+@SuppressLint("InternalInsetResource", "DiscouragedApi", "DefaultLocale")
 @Composable
 fun CarritoScreen(
     navController: NavHostController,
@@ -77,20 +80,33 @@ fun CarritoScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Total a Pagar: $$totalPrice", fontSize = 24.sp)
+            Text(
+                text = "Total a Pagar: $${String.format("%.2f", totalPrice)}",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    navController.navigate(Screen.Datos)
+                    if (cartItems.isNotEmpty()) {
+                        navController.navigate(Screen.Datos)
+                    } else {
+                        Toast.makeText(
+                            navController.context,
+                            "No hay helados en el carrito",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp, 0.dp)
             ) {
-                Text(text = "Pagar helados")
+                Text(text = "Continuar con el pago", fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
 }
-
 
 @Composable
 fun CartHeader(
@@ -141,64 +157,66 @@ fun CartHeader(
                 modifier = Modifier.padding(0.dp)
             )
         }
-
-
     }
 }
 
 @Composable
 fun CartItemRow(item: CartItem, onIncrement: (CartItem) -> Unit, onDecrement: (CartItem) -> Unit) {
-    Row(
+    ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .background(color = MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(8.dp),
     ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(text = item.nombre, fontWeight = FontWeight.Bold)
-
-            Text(buildAnnotatedString {
-                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                append("Sabores: ")
-                Spacer(modifier = Modifier.height(8.dp))
-                pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
-                append(item.saboresSeleccionados.joinToString(", "))
-            }, style = TextStyle.Default)
-
-
-            Text(buildAnnotatedString {
-                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                append("Grageas: ")
-                Spacer(modifier = Modifier.height(8.dp))
-                pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
-                append(item.grageasSeleccionadas.joinToString(", "))
-            }, style = TextStyle.Default)
-
-            Text(buildAnnotatedString {
-                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                append("Extras: ")
-                Spacer(modifier = Modifier.height(8.dp))
-                pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
-                append(item.extrasSeleccionados.joinToString(", "))
-            }, style = TextStyle.Default)
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "$${item.precio}", fontWeight = FontWeight.Bold)
-        }
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.padding(8.dp)
         ) {
-            IconButton(onClick = { onDecrement(item) }) {
-                Icon(imageVector = Icons.Default.Remove, contentDescription = "Decrease Quantity")
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(text = item.nombre, fontWeight = FontWeight.Bold)
+
+                Text(buildAnnotatedString {
+                    pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                    append("Sabores: ")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
+                    append(item.saboresSeleccionados.joinToString(", "))
+                }, style = TextStyle.Default)
+
+                Text(buildAnnotatedString {
+                    pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                    append("Grageas: ")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
+                    append(item.grageasSeleccionadas.joinToString(", "))
+                }, style = TextStyle.Default)
+
+                Text(buildAnnotatedString {
+                    pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                    append("Extras: ")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    pushStyle(SpanStyle(fontWeight = FontWeight.Normal))
+                    append(item.extrasSeleccionados.joinToString(", "))
+                }, style = TextStyle.Default)
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "$${item.precio}", fontWeight = FontWeight.Bold)
             }
-            Text(text = item.quantity.toString())
-            IconButton(onClick = { onIncrement(item) }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Increase Quantity")
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { onDecrement(item) }) {
+                    Icon(
+                        imageVector = Icons.Default.Remove,
+                        contentDescription = "Decrease Quantity"
+                    )
+                }
+                Text(text = item.quantity.toString())
+                IconButton(onClick = { onIncrement(item) }) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Increase Quantity")
+                }
             }
         }
     }
