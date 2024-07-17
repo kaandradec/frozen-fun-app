@@ -6,13 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.kaandradec.frozenfun.view.AddPaymentScreen
-import com.kaandradec.frozenfun.view.AjustesScreen
+import com.kaandradec.frozenfun.view.AyudaScreen
 import com.kaandradec.frozenfun.view.CarritoScreen
 import com.kaandradec.frozenfun.view.ComprobanteScreen
 import com.kaandradec.frozenfun.view.DatosScreen
 import com.kaandradec.frozenfun.view.DetalleScreen
 import com.kaandradec.frozenfun.view.FacturaScreen
-import com.kaandradec.frozenfun.view.PersonalizarScreen
+import com.kaandradec.frozenfun.view.InfoScreen
 import com.kaandradec.frozenfun.view.QRScreen
 import com.kaandradec.frozenfun.view.SeleccionarScreen
 import com.kaandradec.frozenfun.view.TestScreen
@@ -36,11 +36,11 @@ fun SetupGraph(
             val profile = backStackEntry.toRoute<Screen.Detalle>()
             DetalleScreen(navController, cartViewModel, id = profile.id)
         }
-        composable<Screen.Personalizar> {
-            PersonalizarScreen(navController, cartViewModel)
+        composable<Screen.Ayuda> {
+            AyudaScreen(navController, cartViewModel)
         }
-        composable<Screen.Ajustes> {
-            AjustesScreen()
+        composable<Screen.Info> {
+            InfoScreen()
         }
         composable<Screen.Test> {
             TestScreen(navController = navController, cartViewModel = cartViewModel)

@@ -124,7 +124,6 @@ val datos =
             tipo = "Otro",
             esNuevo = true,
             esPersonalizable = false,
-            esDeOtraMarca = true
         ),
         CartItem(
             id = 8,
@@ -141,7 +140,6 @@ val datos =
             tipo = "Otro",
             esNuevo = true,
             esPersonalizable = false,
-            esDeOtraMarca = true
         ),
         CartItem(
             id = 9,
@@ -158,7 +156,6 @@ val datos =
             tipo = "Otro",
             esNuevo = true,
             esPersonalizable = false,
-            esDeOtraMarca = true
         ),
     )
 
@@ -166,7 +163,7 @@ val datos =
 val tagsList = listOf(
     TagItem(id = 1, tag = "Nuevos", imageResId = R.drawable.helado_nuevos),
     TagItem(id = 2, tag = "Personalizables", imageResId = R.drawable.helado_personalizados),
-    TagItem(id = 3, tag = "Otras marcas", imageResId = R.drawable.helado_marcas),
+    TagItem(id = 3, tag = "Otros ", imageResId = R.drawable.helado_marcas),
 )
 
 //class Database {

@@ -9,11 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.automirrored.outlined.Help
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ShoppingBasket
-import androidx.compose.material.icons.outlined.Create
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Help
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.ShoppingBasket
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -60,14 +62,14 @@ class MainActivity : ComponentActivity() {
                 unselectedIcon = Icons.Outlined.ShoppingBasket,
             ),
             BottomNavigationItem(
-                title = "Personalizar",
-                selectedIcon = Icons.Filled.Create,
-                unselectedIcon = Icons.Outlined.Create
+                title = "Ayuda",
+                selectedIcon = Icons.Filled.Help,
+                unselectedIcon = Icons.Outlined.Help
             ),
             BottomNavigationItem(
-                title = "Ajustes",
-                selectedIcon = Icons.Filled.Settings,
-                unselectedIcon = Icons.Outlined.Settings
+                title = "Info",
+                selectedIcon = Icons.Filled.Info,
+                unselectedIcon = Icons.Outlined.Info
             ),
         )
 
@@ -132,8 +134,8 @@ class MainActivity : ComponentActivity() {
                                         navController.navigate(
                                             when (index) {
                                                 0 -> Screen.Seleccionar
-                                                1 -> Screen.Personalizar
-                                                2 -> Screen.Test
+                                                1 -> Screen.Ayuda
+                                                2 -> Screen.Info
                                                 else -> throw IllegalArgumentException("Unknown route")
                                             }
                                         )

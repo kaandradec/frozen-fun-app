@@ -7,10 +7,10 @@ sealed class Screen {
     data object Seleccionar : Screen()
 
     @Serializable
-    data object Personalizar : Screen()
+    data object Ayuda : Screen()
 
     @Serializable
-    data object Ajustes : Screen()
+    data object Info : Screen()
 
     @Serializable
     data object Carrito : Screen()

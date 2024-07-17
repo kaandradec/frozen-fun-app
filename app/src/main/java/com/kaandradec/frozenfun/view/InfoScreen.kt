@@ -9,19 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
 @Composable
-fun TestScreen(
-    navController: NavController,
-    cartViewModel: CartViewModel
+fun InfoScreen(
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFCE4EC)) // Fondo similar al de la imagen
     ) {
-        Text(text = "TEST", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Aqui va la info de la tienda", fontSize = 24.sp, fontWeight = FontWeight.Bold)
     }
 }
