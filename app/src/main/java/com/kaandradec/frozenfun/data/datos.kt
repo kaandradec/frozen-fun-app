@@ -20,8 +20,7 @@ val datos =
             extrasSeleccionados = mutableListOf(),
             tipo = "Cono",
             esNuevo = false,
-            esPersonalizable = true,
-            esDeOtraMarca = false
+            esPersonalizable = true
         ),
         CartItem(
             2,
@@ -37,8 +36,7 @@ val datos =
             extrasSeleccionados = mutableListOf(),
             tipo = "Cono",
             esNuevo = false,
-            esPersonalizable = true,
-            esDeOtraMarca = false
+            esPersonalizable = true
         ),
         CartItem(
             3,
@@ -54,8 +52,7 @@ val datos =
             extrasSeleccionados = mutableListOf(),
             tipo = "Tulipan",
             esNuevo = false,
-            esPersonalizable = true,
-            esDeOtraMarca = false
+            esPersonalizable = true
         ),
         CartItem(
             4,
@@ -72,7 +69,6 @@ val datos =
             tipo = "Banana Split",
             esNuevo = false,
             esPersonalizable = true,
-            esDeOtraMarca = false
         ),
         CartItem(
             5,
@@ -89,7 +85,6 @@ val datos =
             tipo = "Copa",
             esNuevo = false,
             esPersonalizable = true,
-            esDeOtraMarca = false
         ),
         CartItem(
             6,
@@ -106,7 +101,6 @@ val datos =
             tipo = "Tulipan",
             esNuevo = true,
             esPersonalizable = true,
-            esDeOtraMarca = false
         ),
         // Cono de otra marca
         CartItem(

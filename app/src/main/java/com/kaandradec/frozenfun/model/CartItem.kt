@@ -18,8 +18,7 @@ data class CartItem(
     var extrasSeleccionados: MutableList<String> = mutableListOf(),
     val tipo: String,
     val esNuevo: Boolean = false,
-    val esPersonalizable: Boolean = false,
-    val esDeOtraMarca: Boolean = false
+    val esPersonalizable: Boolean = false
 )
 
 data class TagItem(

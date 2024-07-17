@@ -282,7 +282,7 @@ fun HeladoItem(
                 )
             }
 
-            if (helado.esDeOtraMarca) {
+            if (!helado.esPersonalizable) {
                 Column(
                     modifier = Modifier
                         .padding(16.dp, 0.dp)
