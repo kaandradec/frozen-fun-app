@@ -20,7 +20,7 @@ val datos =
             extrasSeleccionados = mutableListOf(),
             tipo = "Cono",
             esNuevo = false,
-            esPersonalizable = true
+            esPersonalizable = true,
         ),
         CartItem(
             2,
@@ -113,7 +113,7 @@ val datos =
             saboresSeleccionados = mutableListOf("Vainilla y Chocolate"),
             descripcion = "Pastel completo de oreo",
             image = R.drawable.pastel_helado_oreo,
-            grageasSeleccionadas = mutableListOf("N|A"),
+            grageasSeleccionadas = mutableListOf("N/A"),
             extrasSeleccionados = mutableListOf("Galletas Oreo y Crema"),
             tipo = "Otro",
             esNuevo = true,
@@ -126,11 +126,11 @@ val datos =
             imagen = "Pastel de frutos rojos",
             quantity = 0,
             sabores = mutableListOf(""),
-            saboresSeleccionados = mutableListOf(),
+            saboresSeleccionados = mutableListOf("Vainilla"),
             descripcion = "Pastel completo de frutos rojos",
             image = R.drawable.pastel_helado_frutosrojos,
-            grageasSeleccionadas = mutableListOf("NA"),
-            extrasSeleccionados = mutableListOf(),
+            grageasSeleccionadas = mutableListOf("N/A"),
+            extrasSeleccionados = mutableListOf("Crema, Fresas fresvas y Arándanos"),
             tipo = "Otro",
             esNuevo = true,
             esPersonalizable = false,
@@ -142,11 +142,11 @@ val datos =
             imagen = "Come y bebe",
             quantity = 0,
             sabores = mutableListOf(""),
-            saboresSeleccionados = mutableListOf(),
+            saboresSeleccionados = mutableListOf("N/A"),
             descripcion = "Helado de naranja con frutas",
             image = R.drawable.helado_comeybebe,
-            grageasSeleccionadas = mutableListOf(),
-            extrasSeleccionados = mutableListOf(),
+            grageasSeleccionadas = mutableListOf("Miel"),
+            extrasSeleccionados = mutableListOf("Papaya, Piña y Bananas"),
             tipo = "Otro",
             esNuevo = true,
             esPersonalizable = false,
@@ -159,36 +159,3 @@ val tagsList = listOf(
     TagItem(id = 2, tag = "Personalizables", imageResId = R.drawable.helado_personalizados),
     TagItem(id = 3, tag = "Otros", imageResId = R.drawable.helado_marcas),
 )
-
-//class Database {
-//    private val items = mutableStateListOf<CartItem>()
-//
-//    init {
-//        items.addAll(listaFake)
-//    }
-//
-//    fun getAllItems(): List<CartItem> {
-//        return items.toList()
-//    }
-//
-//    fun getItemById(id: Int): CartItem? {
-//        return items.find { it.id == id }
-//    }
-//
-//    fun addItem(item: CartItem) {
-//        items.add(item)
-//    }
-//
-//    fun updateItem(item: CartItem) {
-//        val index = items.indexOfFirst { it.id == item.id }
-//        if (index != -1) {
-//            items[index] = item
-//        }
-//    }
-//
-//    fun deleteItem(item: CartItem) {
-//        items.remove(item)
-//    }
-//}
-
-
