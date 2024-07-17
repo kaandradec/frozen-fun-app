@@ -2,13 +2,36 @@ package com.kaandradec.frozenfun.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,8 +47,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.kaandradec.frozenfun.R
+import com.kaandradec.frozenfun.data.datos
 import com.kaandradec.frozenfun.model.CartItem
-import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
 @Composable
@@ -34,98 +57,9 @@ fun DetalleScreen(
     cartViewModel: CartViewModel,
     id: Int
 ) {
-    val listaMenu by remember {
-        mutableStateOf(
-            listOf(
-                CartItem(
-                    1,
-                    "Cono simple",
-                    1.0,
-                    "cono_simple",
-                    0,
-                    descripcion = "Cono simple con 1 sabor de helado",
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
-                    image = R.drawable.cono,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
-                    tipo = "Cono"
-                ),
-                CartItem(
-                    2,
-                    "Cono doble",
-                    3.0,
-                    "cono_doble",
-                    0,
-                    descripcion = "  Cono doble de helado de vainilla y chocolate",
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
-                    image = R.drawable.doble,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
-                    tipo = "Cono"
-                ),
-                CartItem(
-                    3,
-                    "Tulipan 2 sabores",
-                    3.0,
-                    "tulipan",
-                    0,
-                    descripcion = "     Tulipan de helado de vainilla y chocolate",
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
-                    image = R.drawable.tuli_sabores,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
-                    tipo = "Tulipan"
-                ),
-                CartItem(
-                    4,
-                    "Banana Split",
-                    1.0,
-                    "banana_split",
-                    0,
-                    sabores = mutableListOf("Banana Slit con 3 sabores de helado"),
-                    saboresSeleccionados = mutableListOf(),
-                    descripcion = "",
-                    image = R.drawable.banana,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
-                    tipo = "Banana Split"
-                ),
-                CartItem(
-                    5,
-                    "Helado copa doble",
-                    2.5,
-                    "copa_doble",
-                    0,
-                    sabores = mutableListOf("Copa de helado con dos sabores de helado"),
-                    saboresSeleccionados = mutableListOf(),
-                    descripcion = "",
-                    image = R.drawable.copa_doble,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
-                    tipo = "Copa"
-                ),
-                CartItem(
-                    6,
-                    "Tulipan extra",
-                    3.0,
-                    "tulipan_queso",
-                    0,
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf(),
-                    descripcion = "Tulipan de helado de vainilla y chocolate con queso y crema",
-                    image = R.drawable.tuli_sabores_queso,
-                    grageasSeleccionadas = mutableListOf(),
-                    extrasSeleccionados = mutableListOf(),
-                    tipo = "Tulipan",
-                )
-            )
-        )
-    }
 
-    val cartItem = listaMenu.find { it.id == id }
+
+    val cartItem = datos.find { it.id == id }
 
     if (cartItem == null) {
         println("Error: Producto con id $id no encontrado.")

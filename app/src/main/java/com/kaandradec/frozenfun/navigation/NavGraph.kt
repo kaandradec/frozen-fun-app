@@ -43,7 +43,7 @@ fun SetupGraph(
             AjustesScreen()
         }
         composable<Screen.Test> {
-            TestScreen(navController, cartViewModel)
+            TestScreen(navController = navController, cartViewModel = cartViewModel)
         }
         composable<Screen.Carrito> { backStackEntry ->
             CarritoScreen(navController, cartViewModel)

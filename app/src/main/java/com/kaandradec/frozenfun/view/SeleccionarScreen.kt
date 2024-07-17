@@ -1,8 +1,12 @@
 package com.kaandradec.frozenfun.view
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -21,11 +25,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -33,6 +41,7 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,18 +54,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
+import androidx.wear.compose.material.ButtonBorder
+import androidx.wear.compose.material.OutlinedButton
 import com.kaandradec.frozenfun.R
-import com.kaandradec.frozenfun.util.getStatusBarHeightDp
+import com.kaandradec.frozenfun.data.datos
+import com.kaandradec.frozenfun.data.tagsList
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.navigation.Screen
+import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
 @Composable
@@ -64,95 +83,10 @@ fun SeleccionarScreen(
     navController: NavHostController,
     cartViewModel: CartViewModel
 ) {
+
+    val context = LocalContext.current
     var listaMenu by remember {
-        mutableStateOf(
-            listOf(
-                CartItem(
-                    1,
-                    "Cono simple",
-                    1.0,
-                    "cono_simple",
-                    0,
-                    descripcion = "Cono simple con 1 sabor de helado",
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf("Chocolate"),
-                    image = R.drawable.cono,
-                    grageasSeleccionadas = mutableListOf("N/A"),
-                    extrasSeleccionados = mutableListOf("N/A"),
-                    tipo = "Cono"
-                ),
-                CartItem(
-                    2,
-                    "Cono doble",
-                    3.0,
-                    "cono_doble",
-                    0,
-                    descripcion = "  Cono doble de helado de vainilla y chocolate",
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf("Fresa y Ron Pasas"),
-                    image = R.drawable.doble,
-                    grageasSeleccionadas = mutableListOf("N/A"),
-                    extrasSeleccionados = mutableListOf("N/A"),
-                    tipo = "Cono"
-                ),
-                CartItem(
-                    3,
-                    "Tulipan 2 sabores",
-                    3.0,
-                    "tulipan",
-                    0,
-                    descripcion = "     Tulipan de helado de vainilla y chocolate",
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf("Mora y Fresa"),
-                    image = R.drawable.tuli_sabores,
-                    grageasSeleccionadas = mutableListOf("Chispas"),
-                    extrasSeleccionados = mutableListOf("Crema, Barquillo y Fresas frescas"),
-                    tipo = "Tulipan"
-                ),
-                CartItem(
-                    4,
-                    "Banana Split",
-                    1.0,
-                    "banana_split",
-                    0,
-                    sabores = mutableListOf("Banana Slit con 3 sabores de helado"),
-                    saboresSeleccionados = mutableListOf("Fresa, Vainilla y Chocolate"),
-                    descripcion = "",
-                    image = R.drawable.banana,
-                    grageasSeleccionadas = mutableListOf("N/A"),
-                    extrasSeleccionados = mutableListOf("Crema"),
-                    tipo = "Banana Split"
-                ),
-                CartItem(
-                    5,
-                    "Helado copa doble",
-                    2.5,
-                    "copa_doble",
-                    0,
-                    sabores = mutableListOf("Copa de helado con dos sabores de helado"),
-                    saboresSeleccionados = mutableListOf("Vainilla y Maracuya"),
-                    descripcion = "",
-                    image = R.drawable.copa_doble,
-                    grageasSeleccionadas = mutableListOf("N/A"),
-                    extrasSeleccionados = mutableListOf("Crema y Queso"),
-                    tipo = "Copa"
-                ),
-                CartItem(
-                    6,
-                    "Tulipan extra",
-                    3.0,
-                    "tulipan_queso",
-                    0,
-                    sabores = mutableListOf(""),
-                    saboresSeleccionados = mutableListOf("Maracuya, Chile y Mora"),
-                    descripcion = "Tulipan de helado de vainilla y chocolate con queso y crema",
-                    image = R.drawable.tuli_sabores_queso,
-                    grageasSeleccionadas = mutableListOf("N/A"),
-                    extrasSeleccionados = mutableListOf("Barquillo, Queso y Crema"),
-                    tipo = "Tulipan",
-                )
-            )
-        )
+        mutableStateOf(datos)
     }
 
     var itemCount by remember { mutableStateOf(0) }
@@ -184,91 +118,119 @@ fun SeleccionarScreen(
         }
     }
 
-    var mostrarFiltro by remember { mutableStateOf(false) }
+    var mostrarFiltro by remember { mutableStateOf(true) }
 
     fun toggleFiltro() {
         mostrarFiltro = !mostrarFiltro
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp, 0.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-//        Spacer(modifier = Modifier.height(statusBarHeight)) // Espacio para la barra de estado
-        PantallaHeader(
-            navController = navController,
-            cartViewModel = cartViewModel,
-            selectedType = selectedType,
-            onTipoSeleccionado = { tipo -> selectedType = tipo },
-            mostrarFiltro = mostrarFiltro,
-            onToggleFiltro = { toggleFiltro() }
+//    val statusBarHeight = getStatusBarHeightDp()
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.fondo),
+            contentDescription = "Fondo",
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(0.5f), // Ajusta la opacidad al 50%
+            contentScale = ContentScale.Crop // Asegura que la imagen cubra todo el espacio disponible
         )
-
-        val filteredList =
-            if (selectedType == "Todos") listaMenu else listaMenu.filter { it.tipo == selectedType }
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(filteredList) { helado ->
-                HeladoItem(
-                    helado = helado,
-                    onIncrease = { heladoId -> increaseQuantity(heladoId) },
-                    onDecrease = { heladoId -> decreaseQuantity(heladoId) },
-                    navController = navController
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-        }
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(listaMenu) { helado ->
-                HeladoItem(
-                    helado = helado,
-                    onIncrease = { heladoId -> increaseQuantity(heladoId) },
-                    onDecrease = { heladoId -> decreaseQuantity(heladoId) },
-                    navController = navController
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-        }
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()), // Permitir desplazamiento horizontal
-            horizontalArrangement = Arrangement.SpaceBetween
+                .background(Color.Transparent)
         ) {
-            listOf("Todos", "Cono", "Tulipan", "Copa", "Banana Split").forEach { tipo ->
-                Button(
-                    onClick = { selectedType = tipo },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedType == tipo) MaterialTheme.colorScheme.primary else Color.Gray
-                    ),
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    Text(text = tipo)
-                }
-            }
-        }
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
+            PantallaHeader(
+                navController = navController,
+                cartViewModel = cartViewModel,
+                selectedType = selectedType,
+                onTipoSeleccionado = { tipo -> selectedType = tipo },
+                mostrarFiltro = mostrarFiltro,
+                onToggleFiltro = { toggleFiltro() },
+                context = context
+            )
+            Image(
+                painter = painterResource(id = R.drawable.logonombre),
+                contentDescription = "Nombre de la tienda",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .scale(1.6f)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+            if (mostrarFiltro) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()), // Permitir desplazamiento horizontal
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    listOf("Todos", "Cono", "Tulipan", "Copa", "Banana Split").forEach { tipo ->
+                        Button(
+                            onClick = { selectedType = tipo }, // Actualiza el tipo seleccionado
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (selectedType == tipo) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceBright
+                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                        ) {
+                            Text(
+                                text = tipo,
+                                color = if (selectedType == tipo) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
+
+                CartItemsRow()
+
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+
             val filteredList =
                 if (selectedType == "Todos") listaMenu else listaMenu.filter { it.tipo == selectedType }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 24.dp,
+                            topEnd = 24.dp
+                        )
+                    ) // Ajusta el radio del redondeo según necesites
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(16.dp, 16.dp, 20.dp, 0.dp)
+            ) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    // Usar `key` para mejorar el rendimiento en listas que cambian
+                    items(filteredList, key = { helado -> helado.id }) { helado ->
+                        HeladoItem(
+                            helado = helado,
+                            onIncrease = { heladoId -> increaseQuantity(heladoId) },
+                            onDecrease = { heladoId -> decreaseQuantity(heladoId) },
+                            navController = navController
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+            }
 
-            items(filteredList) { helado ->
-                HeladoItem(
-                    helado = helado,
-                    onIncrease = { heladoId -> increaseQuantity(heladoId) },
-                    onDecrease = { heladoId -> decreaseQuantity(heladoId) },
-                    navController = navController
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(listaMenu) { helado ->
+                    HeladoItem(
+                        helado = helado,
+                        onIncrease = { heladoId -> increaseQuantity(heladoId) },
+                        onDecrease = { heladoId -> decreaseQuantity(heladoId) },
+                        navController = navController
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
     }
@@ -284,8 +246,8 @@ fun HeladoItem(
 ) {
     ElevatedCard(
         modifier = Modifier
-            .fillMaxWidth(),
-        onClick = { navController.navigate(Screen.Detalle(helado.id)) }
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         Row(
             modifier = Modifier
@@ -295,7 +257,7 @@ fun HeladoItem(
         ) {
             Box(
                 modifier = Modifier
-                    .width(120.dp)
+                    .width(144.dp)
                     .fillMaxHeight()
                     .aspectRatio(1f)  // Esto asegura que la imagen sea un cuadrado
                     .clip(
@@ -330,53 +292,86 @@ fun HeladoItem(
                 )
             }
 
-            Column(
-                modifier = Modifier
-                    .padding(16.dp, 0.dp)
-                    .background(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .wrapContentWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                IconButton(
-                    onClick = { onIncrease(helado.id) },
+            if (helado.esDeOtraMarca) {
+                Column(
                     modifier = Modifier
-                        .size(48.dp)
+                        .padding(16.dp, 0.dp)
                         .background(
-                            MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(8.dp)
+                            MaterialTheme.colorScheme.primaryContainer,
+                            shape = RoundedCornerShape(16.dp)
                         )
+                        .wrapContentWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Aumentar Cantidad",
-                        tint = Color.White
+                    IconButton(
+                        onClick = { onIncrease(helado.id) },
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(
+                                MaterialTheme.colorScheme.primary,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Aumentar Cantidad",
+                            tint = Color.White
+                        )
+                    }
+
+                    Text(
+                        text = helado.quantity.toString().padStart(2, '0'),
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
+
+                    IconButton(
+                        onClick = { onDecrease(helado.id) },
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(
+                                MaterialTheme.colorScheme.primary,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Remove,
+                            contentDescription = "Disminuir Cantidad",
+                            tint = Color.White
+                        )
+                    }
                 }
 
-                Text(
-                    text = helado.quantity.toString().padStart(2, '0'),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-
-                IconButton(
-                    onClick = { onDecrease(helado.id) },
+            } else {
+                // Boton con icono "Personalizar"
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .size(48.dp)
-                        .background(
-                            MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(8.dp)
-                        )
+                        .padding(8.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Remove,
-                        contentDescription = "Disminuir Cantidad",
-                        tint = Color.White
+                    IconButton(
+                        onClick = { navController.navigate(Screen.Detalle(helado.id)) },
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(
+                                MaterialTheme.colorScheme.primary,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit, // Asumiendo que tienes un icono de edición
+                            contentDescription = "Personalizar",
+                            tint = Color.White
+                        )
+                    }
+                    Text(
+                        text = "Personalizar",
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+
                     )
                 }
             }
@@ -391,7 +386,9 @@ fun PantallaHeader(
     selectedType: String,
     onTipoSeleccionado: (String) -> Unit,
     mostrarFiltro: Boolean, // Pasa el estado de visibilidad del filtro
-    onToggleFiltro: () -> Unit // Pasa la función de cambio de estado
+    onToggleFiltro: () -> Unit, // Pasa la función de cambio de estado
+    context: Context
+
 ) {
     Row(
         modifier = Modifier
@@ -400,25 +397,26 @@ fun PantallaHeader(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = "Elige tus helados",
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
-        )
+        IconButton(
+            onClick = { onToggleFiltro() }, // Toggle para cambiar el estado de visibilidad
+            modifier = Modifier
+                .background(
+                    MaterialTheme.colorScheme.primaryContainer,
+                    shape = RoundedCornerShape(16.dp)
+                )
+        ) {
+
+            Icon(
+                imageVector = Icons.Default.FilterList,
+                contentDescription = "Mostrar Filtros",
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            IconButton(
-                onClick = { onToggleFiltro() }, // Toggle para cambiar el estado de visibilidad
-                modifier = Modifier
-                    .size(48.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.FilterList,
-                    contentDescription = "Filtro",
-                )
-            }
             BadgedBox(
                 badge = {
                     if (cartViewModel.cartItems.isNotEmpty()) {
@@ -429,35 +427,93 @@ fun PantallaHeader(
                             Text("${cartViewModel.cartItems.sumBy { it.quantity }}")
                         }
                     }
-                },
-                modifier = Modifier.clickable {
-                    navController.navigate(Screen.Carrito)
                 }
             ) {
-                Icon(
-                    imageVector = Icons.Filled.ShoppingCart,
-                    contentDescription = "Ir al carrito"
-                )
+                IconButton(
+                    onClick = {
+                        if (cartViewModel.cartItems.isNotEmpty()) {
+                            navController.navigate(Screen.Carrito)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "No hay productos en el carrito",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    },
+                    modifier = Modifier
+                        .background(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ShoppingCart,
+                        contentDescription = "Ir al carrito",
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
             }
         }
     }
+}
 
-    if (mostrarFiltro) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()), // Permitir desplazamiento horizontal
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            listOf("Todos", "Cono", "Tulipan", "Copa", "Banana Split").forEach { tipo ->
-                Button(
-                    onClick = { onTipoSeleccionado(tipo) }, // Actualiza el tipo seleccionado
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedType == tipo) MaterialTheme.colorScheme.primary else Color.Gray
-                    ),
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    Text(text = tipo)
+@Composable
+fun FilterButton(
+    tipo: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    val backgroundColor =
+        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer
+    val contentColor =
+        if (isSelected) Color.White else MaterialTheme.colorScheme.primary
+
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
+            contentColor = contentColor
+        ),
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Text(text = tipo)
+    }
+}
+
+@Composable
+fun CartItemsRow() {
+    // Simulando un desplazamiento infinito repitiendo los elementos de la lista
+    val infiniteList = remember { List(100) { tagsList[it % tagsList.size] } }
+
+    LazyRow(modifier = Modifier.fillMaxWidth()) {
+        itemsIndexed(infiniteList) { index, tagItem ->
+            Card(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .size(width = 140.dp, height = 150.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Box {
+                    Image(
+                        painter = painterResource(id = tagItem.imageResId),
+                        contentDescription = tagItem.tag,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .fillMaxWidth()
+                            .background(Color.Black.copy(alpha = 0.5f))
+                    ) {
+                        Text(
+                            text = tagItem.tag,
+                            color = Color.White,
+                            modifier = Modifier.padding(4.dp)
+                        )
+                    }
                 }
             }
         }

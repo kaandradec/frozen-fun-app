@@ -1,13 +1,9 @@
 package com.kaandradec.frozenfun.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
-import android.os.ParcelFileDescriptor
-import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -36,7 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.itextpdf.text.BaseColor
 import com.itextpdf.text.Document
@@ -48,18 +42,15 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.kaandradec.frozenfun.R
-import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.view.composables.PdfViewer
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
-import com.shockwave.pdfium.PdfiumCore
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.random.Random
 
 @Composable
 fun ComprobanteScreen(

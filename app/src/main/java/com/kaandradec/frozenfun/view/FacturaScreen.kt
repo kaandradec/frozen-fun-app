@@ -5,9 +5,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
-import android.os.ParcelFileDescriptor
-import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,7 +32,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.itextpdf.text.BaseColor
 import com.itextpdf.text.Document
@@ -47,7 +43,6 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.kaandradec.frozenfun.R
-import com.kaandradec.frozenfun.util.getStatusBarHeightDp
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.view.composables.PdfViewer
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
@@ -67,13 +62,13 @@ fun FacturaScreen(
     apellido: String,
     telefono: String,
     email: String,
-    cedula: String
+    cedula: String,
 ) {
     val context = LocalContext.current
 
     val lista = cartViewModel.cartItems
 
-    createInvoicePdf(context, lista, nombre, apellido, telefono, cedula, email)
+    createInvoicePdf(context, lista, nombre, apellido, telefono, email, cedula)
 
     val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "factura.pdf")
 
@@ -115,8 +110,8 @@ fun createInvoicePdf(
     nombre: String,
     apellido: String,
     telefono: String,
-    cedula: String,
-    correo: String
+    email: String,
+    cedula: String
 ) {
     try {
         val document = Document()
@@ -142,14 +137,13 @@ fun createInvoicePdf(
         document.add(Paragraph("Fecha: $date", font))
         document.add(Paragraph("RUC: 1791415132002", font))
         document.add(Paragraph("Número de Factura: $invoiceNumber", font))
-
         document.add(
             Paragraph(
                 "Nombres y Apellidos: ${nombre.uppercase()} ${apellido.uppercase()}",
                 font
             )
         )
-        document.add(Paragraph("Teléfono: $correo", font))
+        document.add(Paragraph("Teléfono: $telefono", font))
         document.add(Paragraph("RUC / CI: $cedula", font))
         document.add(Paragraph("Fecha Emisión: 10/07/2024", font))
         document.add(Paragraph("Comprobante que se modifica: FACTURA", font))
@@ -198,7 +192,7 @@ fun createInvoicePdf(
         document.add(Paragraph("IVA 15%: ${String.format("%.2f", iva)}", font))
         document.add(Paragraph("Total: ${String.format("%.2f", total)}", font))
 
-        document.add(Paragraph("CORREO: $correo", font))
+        document.add(Paragraph("CORREO: $email", font))
         document.add(Paragraph("ADMINISTRADOR: PEDRO CHAMBA", font))
         document.add(
             Paragraph(

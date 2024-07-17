@@ -16,5 +16,14 @@ data class CartItem(
     var saboresSeleccionados: MutableList<String> = mutableListOf(), // Actualiza con los sabores seleccionados
     var grageasSeleccionadas: MutableList<String> = mutableListOf(),
     var extrasSeleccionados: MutableList<String> = mutableListOf(),
-    val tipo: String
+    val tipo: String,
+    val esNuevo: Boolean = false,
+    val esPersonalizable: Boolean = false,
+    val esDeOtraMarca: Boolean = false
+)
+
+data class TagItem(
+    val id: Int,
+    val tag: String,
+    val imageResId: Int
 )

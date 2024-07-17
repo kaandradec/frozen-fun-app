@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
                 // Modo oscuro activado
                 setTheme(R.style.SplashTheme_Dark)
             }
+
             Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> {
                 // Modo oscuro desactivado o indefinido
                 setTheme(R.style.SplashTheme_Light)
@@ -132,7 +133,7 @@ class MainActivity : ComponentActivity() {
                                             when (index) {
                                                 0 -> Screen.Seleccionar
                                                 1 -> Screen.Personalizar
-                                                2 -> Screen.Datos
+                                                2 -> Screen.Test
                                                 else -> throw IllegalArgumentException("Unknown route")
                                             }
                                         )
