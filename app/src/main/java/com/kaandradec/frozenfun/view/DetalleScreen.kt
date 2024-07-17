@@ -22,6 +22,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -120,7 +122,13 @@ fun DetalleScreen(
                     IconButton(
                         onClick = {
                             navController.popBackStack()
-                        }
+                        },
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(
+                                MaterialTheme.colorScheme.primaryContainer,
+                                shape = RoundedCornerShape(16.dp)
+                            )
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -300,7 +308,7 @@ fun DetalleScreen(
                     ),
                     modifier = Modifier.height(IntrinsicSize.Max)
 
-                    ) {
+                ) {
                     ExtrasSelector(
                         selectedExtras = selectedExtras,
                         onExtraSelected = { extra ->
@@ -404,17 +412,26 @@ fun FlavorSelector(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
-        Text(
-            text = "Sabores:",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.Black
-            ),
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(start = 5.dp, top = 8.dp)
                 .clickable { expanded = !expanded }
-        )
+        ) {
+            Text(
+                text = "Sabores:",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+            Icon(
+                imageVector = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
+                contentDescription = "Toggle Expand",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
 
         if (expanded) {
             listOf(
@@ -444,11 +461,13 @@ fun FlavorSelector(
                                         selectedFlavors.clear()
                                         selectedFlavors.add(flavor)
                                     }
+
                                     "Cono doble", "Tulipan 2 sabores", "Helado copa doble" -> {
                                         if (selectedFlavors.size < 2) {
                                             selectedFlavors.add(flavor)
                                         }
                                     }
+
                                     "Banana Split", "Tulipan extra" -> {
                                         if (selectedFlavors.size < 3) {
                                             selectedFlavors.add(flavor)
@@ -479,17 +498,26 @@ fun GrageasSelector(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
-        Text(
-            text = "Grageas:",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.Black
-            ),
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(top = 8.dp)
                 .clickable { expanded = !expanded }
-        )
+        ) {
+            Text(
+                text = "Grageas:",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+            Icon(
+                imageVector = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
+                contentDescription = "Desplegar",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
 
         if (expanded) {
             listOf("Chocolate", "Chispas", "Maní").forEach { gragea ->
@@ -547,17 +575,26 @@ fun ExtrasSelector(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(horizontal = 30.dp)
     ) {
-        Text(
-            text = "Extras:",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.Black
-            ),
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(top = 8.dp)
                 .clickable { expanded = !expanded }
-        )
+        ) {
+            Text(
+                text = "Extras:",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+            Icon(
+                imageVector = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
+                contentDescription = "Toggle Expand",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
 
         if (expanded) {
             listOf(

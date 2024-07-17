@@ -37,7 +37,7 @@ fun SetupGraph(
             DetalleScreen(navController, cartViewModel, id = profile.id)
         }
         composable<Screen.Ayuda> {
-            AyudaScreen(navController, cartViewModel)
+            AyudaScreen()
         }
         composable<Screen.Info> {
             InfoScreen()
