@@ -155,9 +155,10 @@ val datos =
 
 
 val tagsList = listOf(
-    TagItem(id = 1, tag = "Nuevos", imageResId = R.drawable.helado_nuevos),
-    TagItem(id = 2, tag = "Personalizables", imageResId = R.drawable.helado_personalizados),
-    TagItem(id = 3, tag = "Otros", imageResId = R.drawable.helado_marcas),
+    TagItem(id = 1, tag = "Todos", imageResId = R.drawable.helado_todos),
+    TagItem(id = 2, tag = "Nuevos", imageResId = R.drawable.helado_nuevos),
+    TagItem(id = 3, tag = "Personalizables", imageResId = R.drawable.helado_personalizados),
+    TagItem(id = 4, tag = "Otros", imageResId = R.drawable.helado_marcas),
 )
 
 //class Database {
