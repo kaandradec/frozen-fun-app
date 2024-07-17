@@ -77,9 +77,45 @@ fun DatosScreen(
     var cedulaNumero by remember { mutableStateOf("") }
     var metodoPago by remember { mutableStateOf<Int?>(null) } // 0 Efectivo, 1 Tarjeta
     var errorMessage by remember { mutableStateOf("") }
+    var termsAccepted by remember { mutableStateOf(false) }
+
 
     val context = LocalContext.current
+    val termsAndConditionsText = remember {
+        """
+        TÉRMINOS Y CONDICIONES: COMPRAS EN LOCAL
 
+Condiciones Generales
+- Las compras realizadas a través de esta app son exclusivamente para consumo en el local.
+- No se realizan entregas a domicilio a través de esta plataforma. Las compras deben ser recogidas en nuestro local físico.
+- Los precios y disponibilidad de productos pueden variar sin previo aviso.
+
+Horario de Servicio
+- Nuestro horario de atención es de 08:00 AM - 20:00 PM.
+- Cualquier pedido realizado fuera de nuestro horario de servicio será procesado al siguiente día hábil.
+
+Condiciones de Pago
+- Aceptamos pagos en efectivo y con tarjeta de crédito/débito.
+- No aceptamos pagos con cheques o en moneda extranjera.
+
+Política de Cancelación y Devolución
+- No se aceptan cancelaciones de pedidos una vez realizada la compra.
+- Las devoluciones se aceptan únicamente en caso de productos defectuosos o errores en la preparación del pedido. Se requiere la presentación del recibo de compra para realizar la devolución.
+
+Aceptación de Términos
+- Al realizar una compra a través de esta app, el cliente acepta automáticamente todos los términos y condiciones establecidos.
+        """
+    }
+    val privacyPolicyText = """
+    Política de Privacidad
+    
+    En FrozenFun, valoramos tu privacidad y nos comprometemos a proteger tus datos personales. 
+    Utilizaremos tu información para gestionar nuestra relación comercial y mejorar nuestros servicios. 
+    No compartiremos tus datos con terceros sin tu consentimiento explícito, a menos que sea necesario para cumplir con la ley o proteger nuestros derechos.
+    
+    Usaremos tus datos para procesar pedidos y mejorar tu experiencia con nosotros. Al utilizar nuestra aplicación, 
+    aceptas nuestras prácticas de recopilación y uso de información según se describe en esta política.
+"""
 
     Column(
         modifier = Modifier
@@ -311,6 +347,7 @@ fun DatosScreen(
                     )
                 )
             }
+
             item {
                 val options = listOf("Efectivo", "Tarjeta")
                 Column {
@@ -326,47 +363,122 @@ fun DatosScreen(
                             RadioButton(selected = metodoPago == i, onClick = null)
                             Text(text = option)
                         }
-
                     }
                 }
             }
-        }
-        Button(
-            onClick = {
-                val error = validarDatos(
-                    nombreText,
-                    apellidoText,
-                    emailText,
-                    telefonoNumero,
-                    cedulaNumero,
-                    metodoPago
-                )
-                errorMessage = error
-
-                if (error.isEmpty()) {
-                    // Guardar datos
-                    if (metodoPago == 0) {
-                        // Efectivo
-                        navController.navigate(Screen.Comprobante)
-                    } else {
-                        // Tarjeta
-                        navController.navigate(
-                            Screen.AddPayment(
-                                nombreText,
-                                apellidoText,
-                                emailText,
-                                telefonoNumero,
-                                cedulaNumero
-                            )
+            item {
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = "Política de Privacidad",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = privacyPolicyText,
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(64.dp, 16.dp)
-        ) {
-            Text("Guardar", fontSize = 18.sp)
+            }
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clickable { termsAccepted = !termsAccepted }
+                ) {
+                    Checkbox(
+                        checked = termsAccepted,
+                        onCheckedChange = { termsAccepted = it }
+                    )
+                    Text(text = "Acepto los términos y condiciones")
+                }
+            }
+            item{
+            AnimatedVisibility(
+                visible = termsAccepted,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = "Términos y Condiciones",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = termsAndConditionsText,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+             }
+            }
+            item {
+                Button(
+                    onClick = {
+                        val error = validarDatos(
+                            nombreText,
+                            apellidoText,
+                            emailText,
+                            telefonoNumero,
+                            cedulaNumero,
+                            metodoPago,
+                            termsAccepted
+                        )
+                        errorMessage = error
+
+                        if (error.isEmpty() && termsAccepted) {
+                            if (metodoPago == 0) {
+                                // Efectivo
+                                navController.navigate(Screen.Comprobante)
+                            } else {
+                                // Tarjeta
+                                navController.navigate(
+                                    Screen.AddPayment(
+                                        nombreText,
+                                        apellidoText,
+                                        emailText,
+                                        telefonoNumero,
+                                        cedulaNumero
+                                    )
+                                )
+                            }
+                        } else {
+                            if (!termsAccepted) {
+                                Toast.makeText(
+                                    context,
+                                    "Debe aceptar los términos y condiciones para continuar",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(64.dp, 16.dp)
+                ) {
+                    Text("Guardar", fontSize = 18.sp)
+                }
+            }
         }
     }
 }
@@ -409,11 +521,13 @@ fun validarDatos(
     email: String,
     telefono: String,
     cedula: String,
-    metodoPago: Int?
+    metodoPago: Int?,
+    termsAccepted: Boolean
 ): String {
-    val errorMessage = ""
-    if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || telefono.isEmpty() || cedula.isEmpty() || metodoPago == null) {
-        return "Por favor, llene todos los campos"
+    var errorMessage = ""
+    if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || telefono.isEmpty() || cedula.isEmpty() || metodoPago == null || !termsAccepted) {
+        errorMessage = "Por favor, llene todos los campos y acepte los términos y condiciones"
+        return errorMessage
     }
     if (!telefono.isValidEcuadorMobilePhoneNumber())
         return "Número de teléfono inválido, debe empezar con 09 y tener 10 dígitos"
@@ -423,3 +537,4 @@ fun validarDatos(
         return "Cédula inválida"
     return errorMessage
 }
+
