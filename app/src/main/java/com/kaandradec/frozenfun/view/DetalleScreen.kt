@@ -216,7 +216,7 @@ fun DetalleScreen(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
 
-                    Button(
+                    IconButton(
                         onClick = { if (quantity > 0) quantity-- },
                         modifier = Modifier
                             .size(48.dp)
@@ -378,13 +378,13 @@ fun DetalleScreen(
                         cartViewModel.addItem(
                             nuevoHelado
                         )
-
                         // Mostrar mensaje de "Producto Añadido"
                         Toast.makeText(
                             navController.context,
                             "Producto Añadido",
                             Toast.LENGTH_SHORT
                         ).show()
+                        navController.navigate(Screen.Seleccionar)
                     },
                 ) {
                     Text(

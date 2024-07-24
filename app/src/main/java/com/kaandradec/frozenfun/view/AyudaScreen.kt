@@ -89,9 +89,9 @@ fun SeccionAyudaComoComprar() {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
-        item { ItemAyuda(orden = 1, R.drawable.fondo, "Selecciona los productos") }
-        item { ItemAyuda(orden = 2, R.drawable.fondo, "Agrega al carrito") }
-        item { ItemAyuda(orden = 3, R.drawable.fondo, "Realiza el pago") }
+        item { ItemAyuda(orden = 1, R.drawable.compra_1, "Selecciona los productos") }
+        item { ItemAyuda(orden = 2, R.drawable.compra_2, "Agrega al carrito") }
+        item { ItemAyuda(orden = 3, R.drawable.compra_3, "Realiza el pago") }
     }
 }
 
@@ -99,9 +99,9 @@ fun SeccionAyudaComoComprar() {
 fun SeccionAyudaCompraParaConsumidorFinal() {
 
     LazyColumn {
-        item { ItemAyuda(orden = 1, R.drawable.fondo, "Elige opción de consumidor final") }
-        item { ItemAyuda(orden = 2, R.drawable.fondo, "Confirma tus datos") }
-        item { ItemAyuda(orden = 3, R.drawable.fondo, "Finaliza la compra") }
+        item { ItemAyuda(orden = 1, R.drawable.consumidor_final_2, "Elige opción de consumidor final") }
+        item { ItemAyuda(orden = 2, R.drawable.consumidor_final3, "Descarga tu comprobante") }
+        item { ItemAyuda(orden = 3, R.drawable.qr_consumidor, "Recibir el pedidio con el código QR y pagar en efectivo") }
     }
 }
 
@@ -109,8 +109,10 @@ fun SeccionAyudaCompraParaConsumidorFinal() {
 fun SeccionAyudaCompraConTarjeta() {
 
     LazyColumn {
-        item { ItemAyuda(orden = 1, R.drawable.fondo, "Selecciona tarjeta como método de pago") }
-        item { ItemAyuda(orden = 2, R.drawable.fondo, "Ingresa los datos de tu tarjeta") }
+        item { ItemAyuda(orden = 1, R.drawable.comprar_tarjeta1, "Selecciona tarjeta como método de pago") }
+        item { ItemAyuda(orden = 2, R.drawable.compra_tarjeta2, "Ingresa los datos de tu tarjeta") }
+        item { ItemAyuda(orden = 3, R.drawable.compra_tarjeta3, "Descarga tu comprobante") }
+        item { ItemAyuda(orden = 4, R.drawable.qr_tarjets, "Recibir el pedidio con el código QR") }
     }
 }
 

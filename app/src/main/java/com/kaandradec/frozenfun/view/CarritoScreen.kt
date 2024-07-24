@@ -28,6 +28,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
@@ -37,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.kaandradec.frozenfun.data.datos
 import com.kaandradec.frozenfun.model.CartItem
 import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
@@ -49,6 +54,38 @@ fun CarritoScreen(
 
 ) {
     val cartItems = cartViewModel.cartItems
+
+    var listaMenu by remember {
+        mutableStateOf(datos)
+    }
+
+    var itemCount by remember { mutableStateOf(0) }
+    fun increaseQuantity(heladoId: Int) {
+        listaMenu = listaMenu.map { helado ->
+            if (helado.id == heladoId) {
+                val updatedHelado = helado.copy(quantity = helado.quantity + 1)
+                cartViewModel.addHelado(updatedHelado)
+                itemCount++
+                updatedHelado
+            } else {
+                helado
+            }
+        }
+    }
+
+    fun decreaseQuantity(heladoId: Int) {
+        listaMenu = listaMenu.map { helado ->
+            if (helado.id == heladoId && helado.quantity > 0) {
+                val updatedHelado = helado.copy(quantity = helado.quantity - 1)
+                cartViewModel.removeHelado(updatedHelado)
+                itemCount--
+                updatedHelado
+            } else {
+                helado
+            }
+        }
+    }
+
 
     Column(
         modifier = Modifier

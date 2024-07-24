@@ -65,6 +65,7 @@ import com.kaandradec.frozenfun.R
 import com.kaandradec.frozenfun.data.datos
 import com.kaandradec.frozenfun.data.tagsList
 import com.kaandradec.frozenfun.model.CartItem
+import com.kaandradec.frozenfun.model.TagItem
 import com.kaandradec.frozenfun.navigation.Screen
 import com.kaandradec.frozenfun.viewmodel.CartViewModel
 
@@ -75,8 +76,24 @@ fun SeleccionarScreen(
 ) {
 
     val context = LocalContext.current
+    var selectedTags = listOf(tagsList[0], tagsList[1], tagsList[2])
+
+
     var listaMenu by remember {
         mutableStateOf(datos)
+    }
+
+    fun filterByTags(items: List<CartItem>, selectedTags: List<TagItem>): List<CartItem> {
+        return items.filter { item ->
+            selectedTags.any { tag ->
+                when (tag.tag) {
+                    "Nuevos" -> item.esNuevo
+                    "Personalizables" -> item.esPersonalizable
+                    "Otros" -> !item.esPersonalizable
+                    else -> false
+                }
+            }
+        }
     }
 
     var itemCount by remember { mutableStateOf(0) }
@@ -158,9 +175,19 @@ fun SeleccionarScreen(
                         .horizontalScroll(rememberScrollState()), // Permitir desplazamiento horizontal
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    listOf("Todos", "Cono", "Tulipan", "Copa", "Banana Split").forEach { tipo ->
+                    listOf("Todos", "Cono", "Tulipan", "Copa", "Banana Split", "Nuevos","Personalizables","Otro").forEach { tipo ->
                         Button(
-                            onClick = { selectedType = tipo }, // Actualiza el tipo seleccionado
+                            onClick = {
+                                selectedType = tipo
+                                selectedTags = when (tipo) {
+                                    "Todos" -> listOf(tagsList[0], tagsList[1], tagsList[2])
+                                    "Nuevos" -> listOf(tagsList[0])
+                                    "Personalizables" -> listOf(tagsList[1])
+                                    "Otro" -> listOf(tagsList[2])
+                                    else -> listOf(tagsList[0], tagsList[1], tagsList[2])
+                                }
+                                listaMenu = filterByTags(datos, selectedTags)
+                            }, // Actualiza el tipo seleccionado
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = if (selectedType == tipo) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceBright
                             ),
@@ -248,7 +275,7 @@ fun SeleccionarScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    // Usar `key` para mejorar el rendimiento en listas que cambian
+                    // Usar key para mejorar el rendimiento en listas que cambian
                     items(filteredList2, key = { helado -> helado.id }) { helado ->
                         HeladoItem(
                             helado = helado,
@@ -299,7 +326,7 @@ fun HeladoItem(
         ) {
             Box(
                 modifier = Modifier
-                    .width(144.dp)
+                    .width(135.dp)
                     .fillMaxHeight()
                     .aspectRatio(1f)  // Esto asegura que la imagen sea un cuadrado
                     .clip(
