@@ -9,7 +9,7 @@ val datos =
         CartItem(
             1,
             "Cono simple",
-            1.0,
+            1.50,
             "cono_simple",
             0,
             descripcion = "Cono simple con 1 sabor de helado",
@@ -25,7 +25,7 @@ val datos =
         CartItem(
             2,
             "Cono doble",
-            3.0,
+            2.25,
             "cono_doble",
             0,
             descripcion = "  Cono doble de helado de vainilla y chocolate",
@@ -57,7 +57,7 @@ val datos =
         CartItem(
             4,
             "Banana Split",
-            1.0,
+            4.0,
             "banana_split",
             0,
             sabores = mutableListOf("Banana Slit con 3 sabores de helado"),
@@ -73,7 +73,7 @@ val datos =
         CartItem(
             5,
             "Helado copa doble",
-            2.5,
+            3.00,
             "copa_doble",
             0,
             sabores = mutableListOf("Copa de helado con dos sabores de helado"),
@@ -89,7 +89,7 @@ val datos =
         CartItem(
             6,
             "Tulipan extra",
-            3.0,
+            3.50,
             "tulipan_queso",
             0,
             sabores = mutableListOf(""),
@@ -138,7 +138,7 @@ val datos =
         CartItem(
             id = 9,
             nombre = "Come y bebe",
-            precio = 1.0,
+            precio = 1.25,
             imagen = "Come y Bebe",
             quantity = 0,
             sabores = mutableListOf(""),
@@ -343,36 +343,3 @@ val tagsList = listOf(
     TagItem(id = 3, tag = "Personalizables", imageResId = R.drawable.helado_personalizados),
     TagItem(id = 4, tag = "Otros", imageResId = R.drawable.helado_marcas),
 )
-
-//class Database {
-//    private val items = mutableStateListOf<CartItem>()
-//
-//    init {
-//        items.addAll(listaFake)
-//    }
-//
-//    fun getAllItems(): List<CartItem> {
-//        return items.toList()
-//    }
-//
-//    fun getItemById(id: Int): CartItem? {
-//        return items.find { it.id == id }
-//    }
-//
-//    fun addItem(item: CartItem) {
-//        items.add(item)
-//    }
-//
-//    fun updateItem(item: CartItem) {
-//        val index = items.indexOfFirst { it.id == item.id }
-//        if (index != -1) {
-//            items[index] = item
-//        }
-//    }
-//
-//    fun deleteItem(item: CartItem) {
-//        items.remove(item)
-//    }
-//}
-
-
