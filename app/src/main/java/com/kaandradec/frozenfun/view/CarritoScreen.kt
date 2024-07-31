@@ -239,7 +239,7 @@ fun CartItemRow(item: CartItem, onIncrement: (CartItem) -> Unit, onDecrement: (C
                 }, style = TextStyle.Default)
 
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "$${item.precio}", fontWeight = FontWeight.Bold)
+                Text(text = "$${"%.2f".format(item.precio)}", fontWeight = FontWeight.Bold)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
