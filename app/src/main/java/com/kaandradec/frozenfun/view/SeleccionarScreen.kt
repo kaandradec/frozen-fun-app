@@ -175,7 +175,7 @@ fun SeleccionarScreen(
                         .horizontalScroll(rememberScrollState()), // Permitir desplazamiento horizontal
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    listOf("Todos", "Cono", "Tulipan", "Copa", "Banana Split", "Nuevos","Personalizables","Otro").forEach { tipo ->
+                    listOf("Todos", "Cono", "Tulipan", "Copa", "Banana Split").forEach { tipo ->
                         Button(
                             onClick = {
                                 selectedType = tipo
