@@ -65,6 +65,7 @@ fun FacturaScreen(
     email: String,
     cedula: String,
 ) {
+
     val context = LocalContext.current
 
     val lista = cartViewModel.cartItems

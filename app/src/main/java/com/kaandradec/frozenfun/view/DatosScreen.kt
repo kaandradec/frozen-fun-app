@@ -471,8 +471,8 @@ Aceptación de Términos
                     Screen.AddPayment(
                         nombreText,
                         apellidoText,
-                        emailText,
                         telefonoNumero,
+                        emailText,
                         cedulaNumero
                     )
                 )
